@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import GetFuel
+from .models import Fuel
 
 
-class GetFuelSerializer(serializers.ModelSerializer):
+class FuelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GetFuel
-        fields = ('id', 'name',)
+        model = Fuel
+        fields = '__all__'

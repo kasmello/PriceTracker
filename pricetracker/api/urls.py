@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import GetFuelView
+from . import views
 
 urlpatterns = [
-    path('get_fuel', GetFuelView.as_view()), 
+    path('', views.GetFuel), 
+    path('add/',views.AddFuel)
 ]
