@@ -1,3 +1,4 @@
+from .fuelwatch import FuelWatch
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -19,3 +20,15 @@ def AddFuel(request):
     if serializer.is_valid():
         serializer.save()
     return Response()
+
+def Edit(request):
+    context = {}
+    if request.method == 'POST':
+        data = FuelWatch()
+        data.query()
+        data_json = data.get_json
+        print(data_json)
+        context['test'] = 'test'
+    return render(request, 'api.html', context)
+
+

@@ -1,0 +1,10 @@
+<h1>Data Editor</h1>
+{% if test %}
+    {{test}}
+
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="reload" value="refresh">
+    <button type="submit" value="Submit">Refresh Data</button>
+</form>

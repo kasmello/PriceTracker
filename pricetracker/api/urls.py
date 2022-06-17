@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.GetFuel), 
-    path('add/',views.AddFuel)
+    path('add/',views.AddFuel),
+    path('edit/',views.Edit)
 ]
