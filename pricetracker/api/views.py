@@ -34,33 +34,33 @@ def Edit(request):
     if request.method == 'POST':
         data = FuelWatch()
         data.query()
-        # try:
-        data_xml = data.get_xml
-        FuelPrices.objects.filter(date__lt = datetime.date.today()-datetime.timedelta(days=30)).delete() #lt = less than 
-        for store in data_xml:
-            place, created = FuelPlaces.objects.get_or_create(
-                brand = store['brand'], address=store['address'],
-                defaults={
-                    'location': store['location'],
-                    'phone': store['phone'],
-                    'latitude': store['latitude'],
-                    'longitude': store['longitude']
-                }
-            )
-            FuelPrices.objects.get_or_create(
-                place = place, date=store['date'],
-                defaults={
-                    'brand': store['brand'],
-                    'address': store['address'],
-                    'price': store['price']
-                }
-            )
+        try:
+            data_xml = data.get_xml
+            FuelPrices.objects.filter(date__lt = datetime.date.today()-datetime.timedelta(days=30)).delete() #lt = less than 
+            for store in data_xml:
+                place, created = FuelPlaces.objects.get_or_create(
+                    brand = store['brand'], address=store['address'],
+                    defaults={
+                        'location': store['location'].title(),
+                        'phone': store['phone'],
+                        'latitude': store['latitude'],
+                        'longitude': store['longitude']
+                    }
+                )
+                FuelPrices.objects.get_or_create(
+                    place = place, date=store['date'],
+                    defaults={
+                        'brand': store['brand'],
+                        'address': store['address'],
+                        'price': store['price']
+                    }
+                )
                 
                 
                         
-        # except TypeError as e: ##happens when we cannot connect to rss
-        #     print(f'ERROR: {e}')
-        #     print('rip')
+        except TypeError as e: ##happens when we cannot connect to rss
+            print(f'ERROR: {e}')
+            print('rip')
     return render(request, 'api.html', context)
 
 
