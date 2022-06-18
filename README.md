@@ -1,22 +1,23 @@
 # PriceTracker
-*Authors: Joannes Karmel Gandhausada, Han Jien Yeoh*
+*Authors: Joannes Karmel Gandhausada, Han Jien Yeoh*\
 Tracks the Price of things
 
 ## Done: 
 Nothing, this project has just started
 
 ## In Progress:
-Fuel Price Tracker in WA. [Data is tracked from this RSS feed](http://fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS)
+Fuel Price Tracker in WA.\
+[Data is tracked from this RSS feed](http://fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS)
 
 ## Will Do:
 TBD
 
 ## Dependencies: 
 ### Python:
-django
-django-cors-headers
-djangorestframework
-requests
+django\
+django-cors-headers\
+djangorestframework\
+requests\
 fuelwatch api tracker (thanks to the guy I stole from)
 ### JS:
 
