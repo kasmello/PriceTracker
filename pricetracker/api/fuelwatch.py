@@ -40,7 +40,7 @@ class FuelWatch:
         required.
         https://techblog.willshouse.com/2012/01/03/most-common-user-agents/
         """
-        user_agents = [ #random browsers used to access data
+        user_agents = [
             "Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36",
@@ -142,6 +142,8 @@ class FuelWatch:
             if response.status_code == 200:
                 self._raw = response.content
                 return self._raw
+            elif response.status_code == 502:
+                print('Cannot connect to RSS feed!')
         except Exception as e:
             print(e)
 
@@ -197,3 +199,8 @@ class FuelWatch:
         self._json = json_results
 
         return self._json
+
+if __name__ == '__main__':
+    test = FuelWatch()
+    test.query()
+    print(test.get_json)

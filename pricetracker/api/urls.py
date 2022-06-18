@@ -1,8 +1,9 @@
 from django.urls import path
-from . import views
+from .views import GetFuel,AddFuel,Edit,GetPrice
 
 urlpatterns = [
-    path('', views.GetFuel), 
-    path('add/',views.AddFuel),
-    path('edit/',views.Edit)
+    path('', GetFuel), 
+    path('add/',AddFuel),
+    path('edit/',Edit),
+    path('price/', GetPrice)
 ]
