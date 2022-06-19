@@ -7,7 +7,12 @@ function Apifetcher() {
 
     const fetchFuels = () => {
         console.log('Fetching...')
-        fetch('http://127.0.0.1:8000/api/price/')
+        const date = new Date();
+        console.log(`from ${date}`)
+        const day = date.getDate()
+        const month = date.getMonth() + 1
+        const year = date.getFullYear()
+        fetch(`http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/`)
         .then(response => response.json()) //converts data
         .then(json => {
             setPrices(json)
