@@ -5,5 +5,9 @@ urlpatterns = [
     path('', GetFuel), 
     path('add/',AddFuel),
     path('edit/',Edit),
-    path('price/', GetPrice)
+    path('price/', GetPrice),
+    path('price/from=<str:date_from>/', GetPrice),
+    path('price/to=<str:date_to>/', GetPrice),
+    path('price/from=<str:date_from>_to=<str:date_to>/', GetPrice),
+    
 ]

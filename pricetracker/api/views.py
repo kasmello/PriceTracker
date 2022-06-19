@@ -17,10 +17,15 @@ def GetFuel(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def GetPrice(request):
+def GetPrice(request, date_from=None, date_to=None):
     fuels = FuelPrices.objects.all()
+    if date_from:
+        fuels = fuels.filter(date__gte = date_from)
+    if date_to:
+        fuels = fuels.filter(date__lte = date_to)
     serializer = FuelPriceSerializer(fuels, many = True)
     return Response(serializer.data)
+
 
 @api_view(['POST'])
 def AddFuel(request):
