@@ -1,59 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Apifetcher from './components/api_fetcher';
+import WelcomePage from './components/welcome_page';
 import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
 import './App.css';
 
-// using a class instead of function allows for states
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-      this.state = {
-        fuelprices: [],
-        dataIsLoaded:false,
-      }
-      this.fetchFuels = this.fetchFuels.bind(this)
-  }
+// using a class instead of function/const allows for states
 
-  componentDidMount(){ //if this component works
-    this.fetchFuels()
-  }
-
-  fetchFuels(){
-    console.log('Fetching...')
-    fetch('http://127.0.0.1:8000/api/price/')
-    .then(response => response.json()) //converts data
-    .then(json => {
-      this.setState({
-        fuelprices: json,
-        dataIsLoaded: true
-
-      });
-    })
-  }
-
-  render() {
-    const { dataIsLoaded, fuelprices } = this.state
-    if (!dataIsLoaded) return <div>
-      <h1>Please wait!</h1>
-    </div>;
-    return (
-      <div className='App'>
-        <h1>All prices recorded this month</h1> {
-          fuelprices.map((price) => (
-            <ol key = { price.id} >
-              Brand: { price.brand },
-              Date: { price.date },
-              Price: { price.price },
-              Address: { price.address }
-
-            </ol>
-          ))
-        }
-      </div>
+const App = () => {
+    return (      
+      <Router>
+        <h1>PriceTracker</h1>
+          <div className="App">
+            <div className="Content">
+              <Routes>
+                <Route exact path="/" element={<WelcomePage />} />
+                <Route path="/fuelview" element={<Apifetcher />} />
+              </Routes>
+            </div>
+        </div>
+    </Router>
     );
 
 
-  }
+  // }
 
   
 }
