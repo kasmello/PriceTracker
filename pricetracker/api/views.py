@@ -34,11 +34,12 @@ def AddFuel(request):
         serializer.save()
     return Response()
 
-def Edit(request):
-    context = {}
-    if request.method == 'POST':
-        data = FuelWatch()
-        data.query()
+def AddData(days_from_today = 0):
+    data = FuelWatch()
+    for delta in range(days_from_today+1):
+        d = datetime.date.today()-datetime.timedelta(days=delta)
+        date_str=f'{d.day}/{d.month}/{d.year}'
+        data.query(day=date_str)
         try:
             data_xml = data.get_xml
             FuelPrices.objects.filter(date__lt = datetime.date.today()-datetime.timedelta(days=30)).delete() #lt = less than 
@@ -66,6 +67,13 @@ def Edit(request):
         except TypeError as e: ##happens when we cannot connect to rss
             print(f'ERROR: {e}')
             print('rip')
-    return render(request, 'api.html', context)
+
+
+def Edit(request):
+    context = {}
+    if request.method == 'POST':
+        AddData(days_from_today=7)
+        
+    return render(request, 'api.html')
 
 
