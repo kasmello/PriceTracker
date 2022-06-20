@@ -24,9 +24,9 @@ def GetPrice(request, date_from=None, date_to=None):
         dates = dates.filter(date__gte = date_from)
     if date_to:
         dates = dates.filter(date__lte = date_to)
-    if not dates:
-        AddData(0) #very temp solution
-        dates = dates.filter(date__gte = date_from).filter(date__lte = date_to)
+    # if not dates:
+    #     AddData(0) #very temp solution
+    #     dates = dates.filter(date__gte = date_from).filter(date__lte = date_to)
     fuels = FuelPrice.objects.filter(date__in = dates)
     serializer = FuelPriceSerializer(fuels, many = True)
     return Response(serializer.data)
