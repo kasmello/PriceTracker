@@ -7,22 +7,27 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import FuelSerializer, FuelPriceSerializer
-from .models import FuelPrices, FuelPlaces
+from .models import FuelPrice, FuelPlace, Date
 
 
 @api_view(['GET'])
 def GetFuel(request):
-    fuels = FuelPlaces.objects.all()
+    fuels = FuelPlace.objects.all()
     serializer = FuelSerializer(fuels, many = True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def GetPrice(request, date_from=None, date_to=None):
-    fuels = FuelPrices.objects.all()
+
+    dates = Date.objects.all()
     if date_from:
-        fuels = fuels.filter(date__gte = date_from)
+        dates = dates.filter(date__gte = date_from)
     if date_to:
-        fuels = fuels.filter(date__lte = date_to)
+        dates = dates.filter(date__lte = date_to)
+    # if not dates:
+    #     AddData(0) #very temp solution
+    #     dates = dates.filter(date__gte = date_from).filter(date__lte = date_to)
+    fuels = FuelPrice.objects.filter(date__in = dates)
     serializer = FuelPriceSerializer(fuels, many = True)
     return Response(serializer.data)
 
@@ -34,16 +39,17 @@ def AddFuel(request):
         serializer.save()
     return Response()
 
-def Edit(request):
-    context = {}
-    if request.method == 'POST':
-        data = FuelWatch()
-        data.query()
+def AddData(days_from_today = 0):
+    data = FuelWatch()
+    for delta in range(days_from_today+1):
+        d = datetime.date.today()-datetime.timedelta(days=delta)
+        date_str=f'{d.day}/{d.month}/{d.year}'
+        data.query(day=date_str)
         try:
             data_xml = data.get_xml
-            FuelPrices.objects.filter(date__lt = datetime.date.today()-datetime.timedelta(days=30)).delete() #lt = less than 
+            Date.objects.filter(date__lt = datetime.date.today()-datetime.timedelta(days=30)).delete() #lt = less than 
             for store in data_xml:
-                place, created = FuelPlaces.objects.get_or_create(
+                place, created = FuelPlace.objects.get_or_create(
                     brand = store['brand'], address=store['address'],
                     defaults={
                         'location': store['location'].title(),
@@ -52,8 +58,12 @@ def Edit(request):
                         'longitude': store['longitude']
                     }
                 )
-                FuelPrices.objects.get_or_create(
-                    place = place, date=store['date'],
+                date, created = Date.objects.get_or_create(
+                    date = store['date']
+                )
+
+                FuelPrice.objects.get_or_create(
+                    place = place, date=date,
                     defaults={
                         'brand': store['brand'],
                         'address': store['address'],
@@ -66,6 +76,16 @@ def Edit(request):
         except TypeError as e: ##happens when we cannot connect to rss
             print(f'ERROR: {e}')
             print('rip')
-    return render(request, 'api.html', context)
+
+
+def Edit(request):
+    if request.method == 'POST':
+        if 'refresh' in request.POST:
+            AddData(days_from_today=7)
+        elif 'delete' in request.POST:
+            FuelPrice.objects.all().delete()
+    return render(request, 'api.html')
+
+
 
 
