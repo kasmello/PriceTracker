@@ -7,7 +7,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import FuelSerializer, FuelPriceSerializer
-from .models import FuelPrice, FuelPlace, Date
+from .models import FuelPrice, FuelPlace
 
 
 @api_view(['GET'])
@@ -18,16 +18,15 @@ def GetFuel(request):
 
 @api_view(['GET'])
 def GetPrice(request, date_from=None, date_to=None):
-
-    dates = Date.objects.all()
+    fuels = FuelPrice.objects.all()
     if date_from:
-        dates = dates.filter(date__gte = date_from)
+        fuels = fuels.filter(date__gte = date_from)
     if date_to:
-        dates = dates.filter(date__lte = date_to)
+        fuels = fuels.filter(date__lte = date_to)
     # if not dates:
     #     AddData(0) #very temp solution
     #     dates = dates.filter(date__gte = date_from).filter(date__lte = date_to)
-    fuels = FuelPrice.objects.filter(date__in = dates)
+    
     serializer = FuelPriceSerializer(fuels, many = True)
     return Response(serializer.data)
 
@@ -47,7 +46,7 @@ def AddData(days_from_today = 0):
         data.query(day=date_str)
         try:
             data_xml = data.get_xml
-            Date.objects.filter(date__lt = datetime.date.today()-datetime.timedelta(days=30)).delete() #lt = less than 
+            FuelPrice.objects.filter(date__lt = datetime.date.today()-datetime.timedelta(days=30)).delete() #lt = less than 
             for store in data_xml:
                 place, created = FuelPlace.objects.get_or_create(
                     brand = store['brand'], address=store['address'],
@@ -58,12 +57,9 @@ def AddData(days_from_today = 0):
                         'longitude': store['longitude']
                     }
                 )
-                date, created = Date.objects.get_or_create(
-                    date = store['date']
-                )
 
                 FuelPrice.objects.get_or_create(
-                    place = place, date=date,
+                    place = place, date=store['date'],
                     defaults={
                         'brand': store['brand'],
                         'address': store['address'],
