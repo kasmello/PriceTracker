@@ -11,7 +11,7 @@ class FuelPlace(models.Model):
     longitude = models.FloatField(null=True)
 
     def __str__(self):
-        return self.brand + ' - ' + self.address
+        return self.location
 
 
 class FuelPrice(models.Model):
