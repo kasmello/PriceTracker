@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 //use function with usestate/useeffect hook
-function Apifetcher() {
+function Table() {
     const [fuelprices, setPrices] = useState([])
     //fuelprices is the array with everything, setPrices is the setter function  
 
@@ -52,7 +52,7 @@ function Apifetcher() {
             </tr>
             {fuelprices.map((price) => {
               return (
-                <tr key={key}>
+                <tr key = { price.id} > 
                   <td>{price.brand}</td>
                   <td>{price.date}</td>
                   <td>{price.price}</td>
@@ -69,4 +69,4 @@ function Apifetcher() {
 
 
 
-  export default Apifetcher
+  export default Table
