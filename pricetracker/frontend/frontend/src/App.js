@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Apifetcher from './components/api_fetcher';
 import WelcomePage from './components/welcome_page';
-import PageNotFound from './components/misc_pages';
+import { PageNotFound, About } from './components/misc_pages';
 import Navbar from './components/header';
 import logo from './logo.svg';
 import {
@@ -26,6 +26,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<WelcomePage />} />
               <Route path="/fuelview" element={<Apifetcher />} />
+              <Route path="/about" element={<About />} />
               <Route element={<PageNotFound />} />
             </Routes>
           </div>

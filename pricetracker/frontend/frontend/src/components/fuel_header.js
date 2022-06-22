@@ -8,14 +8,13 @@ import {
   } from 'react-router-dom';
 
 
-function Navbar() {
+function FuelNavBar() {
     return (
         <div>
-            <NavLink to='/'>Home</NavLink>
-            <NavLink to='/fuelview'>Fuel Prices</NavLink>
-            <NavLink to='/about'>About</NavLink>
+            <NavLink to='/fuelview/prices'>Fuel Prices</NavLink>
+            <NavLink to='/fuelview/locations'>All Fuel Locations</NavLink>
         </div>
     )
 }
 
-export default Navbar
+export default FuelNavBar
