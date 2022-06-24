@@ -13,21 +13,29 @@ function useUpdateContext() {
 }
 
 function ApiProvider({ children }) {
+
+
     const [fuelprices, setPrices] = useState([]);
 
+    const getLink = () => {
+        const date = new Date();
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        console.log(`Fetching from http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/...`)
+        return `http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/`
+    }
+
     const fetchFuels = () => {
-            const date = new Date();
-            console.log(`from ${date}`)
-            const day = date.getDate()
-            const month = date.getMonth() + 1
-            const year = date.getFullYear()
-            fetch(`http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/`)
+            fetch(getLink())
             .then(response => response.json()) //converts data
             .then(json => {
                 setPrices(json)
             })
-            console.log(`Fetching from http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/...`)
+            
         }
+
+    
     return (
         <ApiContext.Provider value = { fuelprices }>
             <UpdateContext.Provider value = { fetchFuels }>
