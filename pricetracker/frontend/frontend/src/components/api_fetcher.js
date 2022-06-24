@@ -18,7 +18,7 @@ function ApiProvider({ children }) {
     const fetchFuels = () => {
             const date = new Date();
             console.log(`from ${date}`)
-            const day = date.getDate() -1
+            const day = date.getDate()
             const month = date.getMonth() + 1
             const year = date.getFullYear()
             fetch(`http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/`)
