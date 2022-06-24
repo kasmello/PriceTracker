@@ -1,55 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useApiContext, useUpdateContext } from './api_fetcher.js';
 
-//use function with usestate/useeffect hook
+
 function Table() {
-    const [fuelprices, setPrices] = useState([])
-    //fuelprices is the array with everything, setPrices is the setter function  
-
-    const fetchFuels = () => {
-        console.log('Fetching...')
-        const date = new Date();
-        console.log(`from ${date}`)
-        const day = date.getDate()
-        const month = date.getMonth() + 1
-        const year = date.getFullYear()
-        fetch(`http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/`)
-        .then(response => response.json()) //converts data
-        .then(json => {
-            setPrices(json)
-        })
-    }
-
-    useEffect(() => { //if this component works
-        fetchFuels()
-      }, [])
-
-    // return (
-    // <div className='Infodisplay'>
-    //     <h1>All prices recorded this month</h1> 
-    //     {fuelprices.map((price) => (
-    //         //ol is ordered list
-    //         <ol key = { price.id} > 
-    //         Brand: { price.brand },
-    //         Date: { price.date },
-    //         Price: { price.price },
-    //         Address: { price.address }
-
-    //         </ol>
-    //     ))
-    //     }
-    // </div>
-    // ); 
-
+    const fuelprices = useApiContext();
+    const fetchFuels = useUpdateContext();
     return (
+        
         <div className="Table">
-            <h1>Table of all prices recorded this month</h1> 
+          <button onClick={fetchFuels}>Fetch Fuel(TEMP)</button>
+          <h1>Table of all prices recorded this month</h1> 
           <table>
+            <tbody>
             <tr>
               <th>Brand</th>
               <th>Date</th>
               <th>Price</th>
               <th>Address</th>
             </tr>
+            
             {fuelprices.map((price) => {
               return (
                 <tr key = { price.id} > 
@@ -60,6 +29,7 @@ function Table() {
                 </tr>
               )
             })}
+            </tbody>
           </table>
         </div>
       );
