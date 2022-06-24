@@ -1,5 +1,5 @@
 //use function with usestate/useeffect hook
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 
 const ApiContext = createContext(); 
 const UpdateContext = createContext();
@@ -12,19 +12,19 @@ function useUpdateContext() {
     return useContext(UpdateContext)
 }
 
-function ApiProvider({ children }) {
 
+function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
 
     const getLink = () => {
         const date = new Date();
-        const day = date.getDate();
+        const day = date.getDate() -1;
         const month = date.getMonth() + 1;
         const year = date.getFullYear();
         console.log(`Fetching from http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/...`)
         return `http://127.0.0.1:8000/api/price/from=${year}-${month}-${day}/`
-    }
+    };
 
     const fetchFuels = () => {
             fetch(getLink())
@@ -33,7 +33,11 @@ function ApiProvider({ children }) {
                 setPrices(json)
             })
             
-        }
+        };
+
+    useEffect(() => {
+        fetchFuels();
+    },[]); //acts as component did mount, only executes once on launch
 
     
     return (
