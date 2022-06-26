@@ -13,6 +13,7 @@ function useUpdateContext() {
 }
 
 
+
 function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
@@ -34,6 +35,20 @@ function ApiProvider({ children }) {
             })
             
         };
+
+    const filterFunction = () => {
+
+    };
+
+    
+
+    const filterData = (filterArray) => {
+    //example filter data
+    //row.cat = "brand", row.value = "ampol", row.exp = "greater"
+        filterArray.map((row) => (
+            console.log('nothing')
+        ));
+    };
 
     useEffect(() => {
         fetchFuels();
