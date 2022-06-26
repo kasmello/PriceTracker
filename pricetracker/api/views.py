@@ -18,7 +18,7 @@ def GetFuel(request):
 
 @api_view(['GET'])
 def GetPrice(request, date_from=None, date_to=None):
-    fuels = FuelPrice.objects.all()
+    fuels = FuelPrice.objects.all().order_by('-date')
     if date_from:
         fuels = fuels.filter(date__gte = date_from)
     if date_to:
