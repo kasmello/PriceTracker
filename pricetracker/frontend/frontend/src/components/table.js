@@ -1,10 +1,10 @@
 import React from 'react';
-import { useApiContext, useUpdateContext } from './api_fetcher.js';
+import { useApiContext, useUpdateContext } from './api_fetcher.js';//import these to use api
 
 
 function Table() {
-    const fuelprices = useApiContext();
-    const fetchFuels = useUpdateContext();
+    const fuelprices = useApiContext();//fuel array
+    const fetchFuels = useUpdateContext();//function to update fuels
     return (
         
         <div className="Table">
@@ -21,7 +21,7 @@ function Table() {
             
             {fuelprices.map((price) => {
               return (
-                <tr key = { price.id} > 
+                <tr key = {price.id} > 
                   <td>{price.brand}</td>
                   <td>{price.date}</td>
                   <td>{price.price}</td>
