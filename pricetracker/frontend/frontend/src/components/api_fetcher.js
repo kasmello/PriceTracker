@@ -13,10 +13,10 @@ function useUpdateContext() {
 }
 
 
-
 function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
+    const [fuelview, setView] = useState([]);
 
     const getLink = () => {
         const date = new Date();
@@ -32,22 +32,44 @@ function ApiProvider({ children }) {
             .then(response => response.json()) //converts data
             .then(json => {
                 setPrices(json)
+                setView(json)
             })
             
         };
 
-    const filterFunction = () => {
-
-    };
-
-    
-
     const filterData = (filterArray) => {
     //example filter data
-    //row.cat = "brand", row.value = "ampol", row.exp = "greater"
-        filterArray.map((row) => (
-            console.log('nothing')
-        ));
+    //row.cat = "brand", row.val = "ampol", row.exp = "greater"
+        filterArray.map((rowFilt) => {       
+            if (rowFilt.val.length > 0) {
+                const filterFunction = (row) => {
+                    const category = {
+                        brand: row.brand,
+                        date: row.date,
+                        price: row.price,
+                        place: row.place
+                    }
+                    if (rowFilt.exp === '>=') {
+                        return category[rowFilt.cat] >= rowFilt.val;
+            
+                    }
+                    else if (rowFilt.exp === '=') {
+                        return category[rowFilt.cat] === rowFilt.val;
+            
+                    }
+                    else if (rowFilt.exp === '<=') {
+                        return category[rowFilt] <= rowFilt.val;
+                    }
+                }
+                setView(fuelprices.filter(filterFunction))
+                
+            }
+            else {
+                setView(fuelprices)
+            }
+            
+        });
+        
     };
 
     useEffect(() => {
@@ -56,8 +78,8 @@ function ApiProvider({ children }) {
 
     
     return (
-        <ApiContext.Provider value = { fuelprices }>
-            <UpdateContext.Provider value = { fetchFuels }>
+        <ApiContext.Provider value = { fuelview }>
+            <UpdateContext.Provider value = { filterData }>
                 { children }
             </UpdateContext.Provider>
         </ApiContext.Provider>

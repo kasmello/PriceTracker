@@ -1,15 +1,14 @@
 import React from 'react';
-import { useApiContext, useUpdateContext } from './api_fetcher.js';//import these to use api
-import SearchBar from './search_bar.js';
+import { useApiContext } from './api_fetcher.js';//import these to use api
+import { SearchBar } from './search_bar.js';
 
 
 function Table() {
     const fuelprices = useApiContext();//fuel array
-    const fetchFuels = useUpdateContext();//function to update fuels
+    // const filterFuels = useUpdateContext();
     return (
         
         <div className="Table">
-          <button onClick={fetchFuels}>Fetch Fuel(TEMP)</button>
           <h1>Table of all prices recorded this month</h1> 
           <SearchBar />
           <table>
