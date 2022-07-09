@@ -17,7 +17,7 @@ const App = () => {
     return ( 
       <ApiProvider>     
         <Router>
-          <h1 class='Title'>PriceTracker</h1>
+          <h1 className='Title'>PriceTracker</h1>
           <div className="App">
           <Navbar />
             <div className="Content">
