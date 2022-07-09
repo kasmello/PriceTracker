@@ -54,7 +54,7 @@ function ApiProvider({ children }) {
             
                     }
                     else if (rowFilt.exp === '=') {
-                        return category[rowFilt.cat].startsWith(rowFilt.val);
+                        return category[rowFilt.cat].toLowerCase().startsWith(rowFilt.val.toLowerCase());
             
                     }
                     else if (rowFilt.exp === '<=') {
