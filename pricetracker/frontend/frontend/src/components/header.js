@@ -10,7 +10,7 @@ import {
 
 function Navbar() {
     return (
-        <div>
+        <div class='Navigation-bar'>
             <NavLink to='/'>Home</NavLink>
             <NavLink to='/fuelview'>Fuel Prices</NavLink>
             <NavLink to='/about'>About</NavLink>
