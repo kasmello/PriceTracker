@@ -26,7 +26,6 @@ function Table() {
         <div className="Table">
           <h1>Table of all prices recorded this month</h1> 
           <SearchBar />
-          <DropDown />
                   <div className = "container" >
               <DropDown title  = "Select option" options = {options} />
               </div>
