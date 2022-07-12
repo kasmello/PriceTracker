@@ -25,8 +25,8 @@ function DropDown({ title,items = [],multiSelect = false})
       ]
 
     return (
+        
         <div className = "dd-wrapper">
-            {/* <DropDown title  = "Select option" options = {options} /> */}
             <div 
                 tabIndex={0}
                 className = "dd-header"
@@ -58,4 +58,4 @@ function DropDown({ title,items = [],multiSelect = false})
 
 }
 
-export { DropDown }; 
+export default DropDown
