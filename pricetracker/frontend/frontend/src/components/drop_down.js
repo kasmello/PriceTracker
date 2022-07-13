@@ -23,9 +23,9 @@ function DropDown({ title,options = [],multiSelect = false})
                 <div className = "dd-header__title">
                     <p className = "dd-header__title -- bold">{title}</p>
                 </div>
-                <div className = "dd-header__action">
+                {/* <div className = "dd-header__action">
                     <p>{open ? 'Close' : 'Open'}</p>
-                </div>
+                </div> */}
             </div>  
             {open && (
                 <ul className = "dd-list"> 
