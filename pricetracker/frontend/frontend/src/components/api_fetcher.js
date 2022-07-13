@@ -17,6 +17,7 @@ function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
     const [fuelview, setView] = useState([]);
+    const [places, setPlaces] = useState([]);
 
     const getLink = () => {
         const date = new Date();
@@ -36,6 +37,15 @@ function ApiProvider({ children }) {
             })
             
         };
+
+    const fetchPlaces = () => {
+        console.log('Fetching from http://127.0.0.1:8000/api/...')
+        fetch('http://127.0.0.1:8000/api/')
+        .then(response => response.json())
+        .then(json => {
+            setPlaces(json)
+        })
+    }
 
     const filterData = (filterArray) => {
     //example filter data
@@ -74,6 +84,7 @@ function ApiProvider({ children }) {
 
     useEffect(() => {
         fetchFuels();
+        fetchPlaces();
     },[]); //acts as component did mount, only executes once on launch
 
     

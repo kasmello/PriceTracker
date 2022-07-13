@@ -2,6 +2,7 @@ import React from 'react';
 import { useApiContext } from './api_fetcher.js';//import these to use api
 import { SearchBar } from './search_bar.js';
 import DropDown from './drop_down';
+import Chart from './timeseries';
 
 
 const options = [
@@ -26,10 +27,9 @@ function Table() {
         <div className="Table">
           <h1>Table of all prices recorded this month</h1> 
           <SearchBar />
-          <DropDown />
-                  <div className = "container" >
-              <DropDown title  = "Select option" options = {options} />
-              </div>
+          <div className = "container" >
+            <DropDown title  = "Select option" options = {options} />
+          </div>
           <table>
             <tbody>
             <tr>
@@ -51,6 +51,8 @@ function Table() {
             })}
             </tbody>
           </table>
+          <button>GraphView</button>
+          <Chart />
         </div>
       );
 
