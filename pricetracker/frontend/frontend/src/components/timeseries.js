@@ -7,8 +7,14 @@ import { useApiContext } from './api_fetcher.js';
 
 ReactFC.fcRoot(FusionCharts, MSLine, FusionTheme);
 
-function Chart() {
+const tableData = () => {
     const fuelprices = useApiContext();//fuel data
+    var fueldata = [];
+}
+
+
+function Chart() {
+    const fueldata = tableData();//fuel data
 
     const chartConfigs =  {
         type: "line", // The chart type
@@ -25,14 +31,14 @@ function Chart() {
             theme: "fusion"                 //Set the theme for your chart
         },
         // Chart Data - from step 2
-        data: fuelprices
+        data: []
         }
     };
 
 
     return (
         <div>
-            {/* <ReactFC {...chartConfigs} />; */}
+            <ReactFC {...chartConfigs} />
             <a href="">test</a>
         </div>
     )
