@@ -6,6 +6,7 @@ const UpdateContext = createContext();
 const SearchContext = createContext();
 const UpdateSearchContext = createContext()
 const UpdateDateContext = createContext()
+const 
 
 function useApiContext() {
     return useContext(ApiContext)
@@ -32,19 +33,28 @@ function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
     const [fuelview, setView] = useState([]);
-    const [dateScope, setScope] = useState(1);
     const [maxScope, setMax] = useState(1);
     const [places, setPlaces] = useState([]);
     const [searchCat, changeCat] = useState('brand');
-    const [filterArray, setFilter] = useState([{},{}]);
 
     const getDate = (num) => {
         const date = new Date();
-        const day = date.getDate() - (num);
+        date.setDate(date.getDate()-num);
+        const day = date.getDate();
         const month = date.getMonth() + 1;
         const year = date.getFullYear();
         return `${year}-${month}-${day}`
     }
+    const [filterArray, setFilter] = useState([{
+                            'cat': 'brand',
+                            'val': ''
+                                },
+                        {
+                            'cat': 'date',
+                            'val': getDate(1)
+                        }]);
+
+    
 
     const getLink = (num) => {
         const date = getDate(num)
@@ -52,8 +62,7 @@ function ApiProvider({ children }) {
         return `http://127.0.0.1:8000/api/price/from=${date}/`
     };
 
-    const changeDateScope = (num) => {
-        setScope(num);        
+    const changeDateScope = (num) => {    
         let checkIfReloadNeeded = new Promise((resolve, reject) => {
             if (num > maxScope) {
                 setMax(num)
@@ -142,7 +151,7 @@ function ApiProvider({ children }) {
         <ApiContext.Provider value = { fuelview }>
         <UpdateContext.Provider value = { changeFilter }>
         <SearchContext.Provider value = { searchCat }>
-        <UpdateSearchContext.Provider value = {changeSearchCat}>
+        <UpdateSearchContext.Provider value = { changeSearchCat }>
         <UpdateDateContext.Provider value = { changeDateScope }>
             { children }
         </UpdateDateContext.Provider>
