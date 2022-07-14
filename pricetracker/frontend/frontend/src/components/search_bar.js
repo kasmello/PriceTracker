@@ -8,7 +8,7 @@ function SearchBar() {
     const handleChange = (e) => {
         // e.preventDefault();
         setSearchInput(e.target.value);
-        filterData([
+        filterData([0,
             {
                 cat: curCat,
                 val: e.target.value,
