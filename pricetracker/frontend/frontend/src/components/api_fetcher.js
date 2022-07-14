@@ -3,6 +3,8 @@ import React, { useState, createContext, useContext, useEffect } from 'react';
 
 const ApiContext = createContext(); 
 const UpdateContext = createContext();
+const SearchContext = createContext();
+const UpdateSearchContext = createContext()
 
 function useApiContext() {
     return useContext(ApiContext)
@@ -12,12 +14,21 @@ function useUpdateContext() {
     return useContext(UpdateContext)
 }
 
+function useSearchContext() {
+    return useContext(SearchContext);
+}
+
+function useUpdateSearchContext() {
+    return useContext(UpdateSearchContext);
+}
+
 
 function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
     const [fuelview, setView] = useState([]);
     const [places, setPlaces] = useState([]);
+    const [searchCat, changeCat] = useState('brand')
 
     const getLink = () => {
         const date = new Date();
@@ -38,6 +49,11 @@ function ApiProvider({ children }) {
             
         };
 
+    const changeSearchCat = (category) => {
+        changeCat(category);
+        console.log(`changed category to ${category}`)
+    }
+
     const fetchPlaces = () => {
         console.log('Fetching from http://127.0.0.1:8000/api/...')
         fetch('http://127.0.0.1:8000/api/')
@@ -57,14 +73,14 @@ function ApiProvider({ children }) {
                         brand: row.brand,
                         date: row.date,
                         price: row.price,
-                        place: row.place
+                        address: row.address
                     }
                     if (rowFilt.exp === '>=') {
                         return category[rowFilt.cat] >= rowFilt.val;
             
                     }
                     else if (rowFilt.exp === '=') {
-                        return category[rowFilt.cat].toLowerCase().startsWith(rowFilt.val.toLowerCase());
+                        return category[rowFilt.cat].toLowerCase().includes(rowFilt.val.toLowerCase());
             
                     }
                     else if (rowFilt.exp === '<=') {
@@ -90,9 +106,13 @@ function ApiProvider({ children }) {
     
     return (
         <ApiContext.Provider value = { fuelview }>
-            <UpdateContext.Provider value = { filterData }>
-                { children }
-            </UpdateContext.Provider>
+        <UpdateContext.Provider value = { filterData }>
+        <SearchContext.Provider value = { searchCat }>
+        <UpdateSearchContext.Provider value = {changeSearchCat}>
+            { children }
+        </UpdateSearchContext.Provider>
+        </SearchContext.Provider>
+        </UpdateContext.Provider>
         </ApiContext.Provider>
     );
 
@@ -118,4 +138,4 @@ function ApiProvider({ children }) {
 }
 
 
-  export { ApiProvider, useApiContext, useUpdateContext }
+  export { ApiProvider, useApiContext, useUpdateContext, useSearchContext, useUpdateSearchContext }
