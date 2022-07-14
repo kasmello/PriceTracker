@@ -52,14 +52,29 @@
 }
 
 
-table {
+.ViewContainer {
   display: flex;
-  justify-content: center;
+  margin-left: 40vmin;
+
 }
+
+table {
+  margin-top: 2em;
+}
+
+
+
+.ChangeView {
+  height: 2em;
+  width: 12em;
+  margin-left: 12vmin;
+
+}
+
+
 
 td {
   text-align: center;
-  margin-left: 55vmin;
   width: 10em;
 }
 
