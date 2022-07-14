@@ -1,24 +1,9 @@
 import React, { useState } from 'react';
 import { SearchBar } from './search_bar.js';
-import DropDown from './drop_down';
+import SearchDropDown from './drop_down';
 import Chart from './timeseries';
 import Table from './table.js';
 
-
-const options = [
-  {
-      id: 1, 
-      value: 'date',
-  },
-  {
-      id: 2, 
-      value: 'price (low-high)',
-  },
-  {
-      id: 2, 
-      value: 'price (high-low)',
-  },
-]
 
 function ToggleView() {
   const [text, changeText] = useState('View Time Graph')
@@ -34,16 +19,14 @@ function ToggleView() {
   )
 }
 
-
-
 function FuelView() {
 
     return (
       <div>
           <h1>Table of all prices recorded this month</h1> 
-            <SearchBar />
-            <div className = "container" >
-              <DropDown title  = "Select option" options = {options} />
+            <div className = "searchContainer" >
+              <SearchDropDown />
+              <SearchBar />
             </div>          
             <ToggleView />
       </div>
