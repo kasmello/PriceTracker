@@ -13,7 +13,8 @@ function ChooseMultiTime() {
     }
 
     return (
-        <FormControl className='timeRadio'>
+        <div className='timeRadio'>
+        <FormControl>
             <FormLabel id="demo-row-radio-buttons-group-label">Time span of data</FormLabel>
             <RadioGroup
                 row
@@ -27,6 +28,7 @@ function ChooseMultiTime() {
                 <FormControlLabel value="30" control={<Radio />} label="Month" />
             </RadioGroup>
         </FormControl>
+        </div>
     )
 }
 

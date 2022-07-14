@@ -75,8 +75,13 @@
 
 }
 
-table {
+.filterHeaders {
+  display:flex;
   
+}
+
+.timeRadio {
+  margin-right: 5em;
 }
 
 
