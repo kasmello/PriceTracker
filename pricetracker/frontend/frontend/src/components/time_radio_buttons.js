@@ -9,7 +9,7 @@ import FormLabel from '@mui/material/FormLabel';
 function ChooseMultiTime() {
     const updateSearch = useUpdateDateContext();
     const changeFilter = (filter) => {
-        updateSearch(parseInt(filter));
+        updateSearch(filter);
     }
 
     return (
@@ -23,9 +23,9 @@ function ChooseMultiTime() {
                 name="row-radio-buttons-group"
                 onChange={(e,value) => changeFilter(value)}
             >
-                <FormControlLabel value="1" control={<Radio />} label="Day" />
-                <FormControlLabel value="7" control={<Radio />} label="Week" />
-                <FormControlLabel value="30" control={<Radio />} label="Month" />
+                <FormControlLabel value={1} control={<Radio />} label="Day" />
+                <FormControlLabel value={7} control={<Radio />} label="Week" />
+                <FormControlLabel value={30} control={<Radio />} label="Month" />
             </RadioGroup>
         </FormControl>
         </div>
