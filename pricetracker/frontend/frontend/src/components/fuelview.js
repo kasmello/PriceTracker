@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { SearchBar } from './search_bar.js';
-import SearchDropDown from './drop_down';
+import SearchDropDown from './search_drop_down';
+import ChooseMultiCategory from './category_radio_buttons.js';
+import ChooseMultiTime from './time_radio_buttons.js';
 import Chart from './timeseries';
 import Table from './table.js';
 
@@ -25,8 +27,11 @@ function FuelView() {
       <div>
           <h1>Table of all prices recorded this month</h1> 
             <div className = "searchContainer" >
-              <SearchDropDown />
-              <SearchBar />
+              <div className = "filterHeaders" >
+                <ChooseMultiTime />
+                <ChooseMultiCategory />
+                <SearchBar />
+              </div>
             </div>          
             <ToggleView />
       </div>
