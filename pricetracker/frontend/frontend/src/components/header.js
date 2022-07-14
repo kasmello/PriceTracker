@@ -6,9 +6,6 @@ import {
     Link,
     NavLink
   } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 const scrollToRef = (ref) => {window.scrollTo({
     top: ref.current.offsetTop,
@@ -26,13 +23,9 @@ function Navbar() {
 
     return (
         <div className='Navigation-bar'>
-            <Row>
-                <NavLink to='/' className='directoryButton'>Home</NavLink>
-                <a>&nbsp;</a>
-                <NavLink to='fuelview' ref={myRef} onClick={executeScroll} className='directoryButton'>Fuel Prices</NavLink>
-                <a>&nbsp;</a>
-                <NavLink to='/about' className='directoryButton'>About</NavLink>
-            </Row>
+            <button className='navlink'><NavLink to='/'>Home</NavLink></button>
+            <button className='navlink'><NavLink to='fuelview' ref={myRef} onClick={executeScroll} className='directoryButton'>Fuel Prices</NavLink></button>
+            <button className='navlink'><NavLink to='/about'>About</NavLink></button>
         </div>
     )
 }
