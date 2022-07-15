@@ -22,7 +22,7 @@ function SearchBar() {
             <input
             type="search"
             name="searchBar"
-            placeholder="Brand Filter"
+            placeholder= {curCat.charAt(0).toUpperCase() + curCat.slice(1) + " "  +"Filter"} 
             onChange={handleChange}
             value={searchInput} />
         </div> 
