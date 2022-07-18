@@ -5,6 +5,7 @@ import ChooseMultiCategory from './category_radio_buttons.js';
 import ChooseMultiTime from './time_radio_buttons.js';
 import Chart from './timeseries';
 import Table from './table.js';
+import DataTable from './data_table.js';
 
 
 function ToggleView() {
@@ -15,7 +16,7 @@ function ToggleView() {
 
   return (
     <div className="ViewContainer">
-      { text == 'View Time Graph' ? <Table /> : <Chart /> }
+      { text == 'View Time Graph' ? <DataTable /> : <Chart /> }
       <button className='ChangeView' onClick={() => changeView()}>{ text }</button>
     </div>
   )
