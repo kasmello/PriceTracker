@@ -28,46 +28,46 @@ function SelectedChanger({ children }) {
 }
 
 
-const columns = [
- {
-  name: "brand",
-  label: "Brand",
-  options: {
-   filter: false,
-   sort: true,
-  }
- },
- {
-  name: "date",
-  label: "Date",
-  options: {
-   filter: false,
-   sort: true,
-  }
- },
- {
-  name: "price",
-  label: "Price",
-  options: {
-   filter: false,
-   sort: true,
-  }
- },
- {
-  name: "address",
-  label: "ADDRESS",
-  options: {
-   filter: false,
-   sort: false,
-  }
- },
-];
+const columns = (selected) => {
+  return ([
+    {
+      name: "brand",
+      label: "Brand",
+      options: {
+      filter: false,
+      sort: true,
+      }
+    },
+    {
+      name: "date",
+      label: "Date",
+      options: {
+      display: (selected == 'none' ? true : false),
+      filter: false,
+      sort: true,
+      }
+    },
+    {
+      name: "price",
+      label: "Price",
+      options: {
+      display: (selected == 'none' ? true : false),
+      filter: false,
+      sort: true,
+      }
+    },
+    {
+      name: "address",
+      label: "ADDRESS",
+      options: {
+      filter: false,
+      sort: false,
+      }
+    },
+  ])};
 
-
-function DataTable() {
-  const fuelprices = useApiContext();//fuel array
-  const selected = useSelect();
-  const options = {
+const options = (selected) => {
+  return ({
     selectableRows: selected, 
     download: false,
     search: false,
@@ -75,12 +75,17 @@ function DataTable() {
     viewColumns: false,
     filter: false,
     customToolbarSelect: () => {}
-  };
+  })
+};
+
+function DataTable() {
+  const fuelprices = useApiContext();//fuel array
+  const selected = useSelect();
   
   return(<MUIDataTable
-  data={fuelprices}
-  columns={columns}
-  options = {options} />)
+    data={fuelprices}
+    columns={columns(selected)}
+    options = {options(selected)} />)
 }
 
 export { DataTable, useEnableSelect, SelectedChanger, useSelect }
