@@ -24,7 +24,7 @@ function Navbar() {
     return (
         <div className='Navigation-bar'>
             <NavLink to='/'><button className='navlink'>Home</button></NavLink>
-            <NavLink to='fuelview' ref={myRef} onClick={executeScroll} className='directoryButton'><button className='navlink'>Fuel Prices</button></NavLink>
+            <NavLink to='fuelview' ref={myRef} onClick={() => executeScroll()} className='directoryButton'><button className='navlink'>Fuel Prices</button></NavLink>
             <NavLink to='/about'><button className='navlink'>About</button></NavLink>
         </div>
     )
