@@ -65,6 +65,7 @@ class FuelWatch:
                         .replace('Pl','Place')\
                         .replace('Bvd','Boulevard')\
                         .replace('Cres','Crescent')\
+                        .replace('Cr','Crescent')\
                         .replace('Pde','Parade')\
                         .replace('Ct','Court')
 
