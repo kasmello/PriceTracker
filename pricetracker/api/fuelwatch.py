@@ -54,6 +54,21 @@ class FuelWatch:
 
         return agent
 
+    @staticmethod
+    def unabbreviate_word(phrase):
+        return phrase.replace('Rd', 'Road')\
+                        .replace('St', 'Street')\
+                        .replace('Cnr', 'Corner')\
+                        .replace('Hwy', 'Highway')\
+                        .replace('Ave','Avenue')\
+                        .replace('Dr','Drive')\
+                        .replace('Pl','Place')\
+                        .replace('Bvd','Boulevard')\
+                        .replace('Cres','Crescent')\
+                        .replace('Pde','Parade')\
+                        .replace('Ct','Court')
+
+
     def validate_product(self, product: int) -> bool:
         if not product:
             return True
@@ -183,7 +198,7 @@ class FuelWatch:
             dic['price'] = elem.find('price').text
             dic['trading-name'] = elem.find('trading-name').text
             dic['location'] = elem.find('location').text
-            dic['address'] = elem.find('address').text
+            dic['address'] = FuelWatch.unabbreviate_word(elem.find('address').text)
             dic['phone'] = elem.find('phone').text
             dic['latitude'] = elem.find('latitude').text
             dic['longitude'] = elem.find('longitude').text
