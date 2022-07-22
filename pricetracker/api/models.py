@@ -11,13 +11,12 @@ class FuelPlace(models.Model):
     longitude = models.FloatField(null=True)
 
     def __str__(self):
-        return str(self.brand + ' ' + self.address)
+        return str(self.address + ', ' + self.location)
 
 
 class FuelPrice(models.Model):
     brand = models.CharField(max_length=70, default='Unknown')
     price = models.FloatField()
-    address = models.CharField(max_length=70, null=True)
     date = models.DateField(auto_now_add=False, default = datetime.date.today())
     place = models.ForeignKey(FuelPlace, related_name="places", on_delete=models.CASCADE)
     

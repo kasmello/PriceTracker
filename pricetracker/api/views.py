@@ -62,7 +62,6 @@ def AddData(days_from_today = 0):
                     place = place, date=store['date'],
                     defaults={
                         'brand': store['brand'],
-                        'address': store['address'],
                         'price': store['price']
                     }
                 )
