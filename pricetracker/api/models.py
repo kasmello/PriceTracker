@@ -18,7 +18,7 @@ class FuelPrice(models.Model):
     brand = models.CharField(max_length=70, default='Unknown')
     price = models.FloatField()
     date = models.DateField(auto_now_add=False, default = datetime.date.today())
-    place = models.ForeignKey(FuelPlace, related_name="places", on_delete=models.CASCADE)
+    address = models.ForeignKey(FuelPlace, related_name="places", on_delete=models.CASCADE)
     
 
     # def __str__(self):

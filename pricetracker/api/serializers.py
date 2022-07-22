@@ -8,7 +8,7 @@ class FuelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FuelPriceSerializer(serializers.ModelSerializer):
-    place = serializers.StringRelatedField(many=False, read_only=True)
+    address = serializers.StringRelatedField(many=False, read_only=True)
     class Meta:
         model = FuelPrice
         fields = '__all__'
