@@ -9,13 +9,15 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
+import { SelectedChanger } from './components/data_table';
 import './App.css';
 
 // using a class instead of function/const allows for states
 
 const App = () => {
     return ( 
-      <ApiProvider>     
+      <ApiProvider>  
+      <SelectedChanger>  
         <Router>
           <h1 className='Title'>PriceTracker</h1>
           <div className="App">
@@ -30,6 +32,7 @@ const App = () => {
             </div>
         </div>
       </Router>
+    </SelectedChanger> 
     </ApiProvider> 
     );
 
