@@ -8,21 +8,24 @@ import Table from './table.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import DataTable from './data_table.js';
+import { DataTable, useEnableSelect } from './data_table.js';
 
 
 function ToggleView() {
   const [text, changeText] = useState('View Time Graph')
+  const enableSelect = useEnableSelect()
   const changeView = () => {
       changeText(text == 'View Time Graph' ? 'Back to Table' : 'View Time Graph')
+      enableSelect()
   }
-
   return (
     <div className="ViewContainer">
-      { text == 'View Time Graph' ? <DataTable /> : <Chart /> }
+      {/* { text == 'View Time Graph' ? <DataTable /> : <Chart /> } */}
+      <DataTable />
       <Col>
       <button className='ChangeView' onClick={() => changeView()}>{ text }</button>
-      <button className='ChangeView' style={{ display: text== "View Time Graph" ? "none" : "block" }}>View Graph of Selected Companies</button>
+      <button className='ChangeView' style={{ display: text== "View Time Graph" ? "none" : "block" }}
+      >View Graph of Selected Companies</button>
       </Col>
     </div>
   )
