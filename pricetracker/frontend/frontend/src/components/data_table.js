@@ -30,10 +30,10 @@ const columns = [
  },
  {
   name: "address",
-  label: "Address",
+  label: "ADDRESS",
   options: {
    filter: false,
-   sort: true,
+   sort: false,
   }
  },
 ];
