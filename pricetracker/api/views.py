@@ -38,7 +38,17 @@ def AddFuel(request):
         serializer.save()
     return Response()
 
+def FixFuel():
+    all = FuelPlace.objects.all()
+    for place in all:
+        place.address = FuelWatch.unabbreviate_word(place.address)
+        place.save()
+        print(place.address)
+#to edit and save something:
+#model.field = something, then save it
+
 def AddData(days_from_today = 0):
+    # FixFuel()
     data = FuelWatch()
     for delta in range(days_from_today+1):
         d = datetime.date.today()-datetime.timedelta(days=delta)
@@ -59,7 +69,7 @@ def AddData(days_from_today = 0):
                 )
 
                 FuelPrice.objects.get_or_create(
-                    place = place, date=store['date'],
+                    address = place, date=store['date'],
                     defaults={
                         'brand': store['brand'],
                         'price': store['price']
