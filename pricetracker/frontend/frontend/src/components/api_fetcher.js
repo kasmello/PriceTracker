@@ -6,6 +6,7 @@ const UpdateContext = createContext();
 const SearchContext = createContext();
 const UpdateSearchContext = createContext()
 const UpdateDateContext = createContext()
+const UseFilter = createContext()
 
 function useApiContext() {
     return useContext(ApiContext)
@@ -27,12 +28,15 @@ function useUpdateDateContext() {
     return useContext(UpdateDateContext);
 }
 
+function useFilter() {
+    return useContext(UseFilter)
+}
+
 
 function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
     const [fuelview, setView] = useState([]);
-    const [maxScope, setMax] = useState(1);
     const [places, setPlaces] = useState([]);
     const [searchCat, changeCat] = useState('brand');
 
@@ -61,18 +65,33 @@ function ApiProvider({ children }) {
         return `http://127.0.0.1:8000/api/price/from=${date}/`
     };
 
-    const changeDateScope = (num) => {    
-        let checkIfReloadNeeded = new Promise((resolve, reject) => {
-            if (num > maxScope) {
-                setMax(num)
+    const changeDateScope = (num) => {  
+        const grabEarliestDate = () => {
+            const earliest_date = getDate(num)
+            fuelprices.sort((a, b) => {
+                let da = new Date(a.date).setHours(0, 0, 0, 0), //rounds to nearest date
+                    db = new Date(b.date).setHours(0, 0, 0, 0);
+                return da - db;  
+            })  
+            return Promise.resolve([fuelprices[0].date, earliest_date])
+        };
+        
+        const checkIfReloadNeeded = ([old_date, new_date]) => {
+            let oldd = new Date(old_date).setHours(0, 0, 0, 0),
+                newd = new Date(new_date).setHours(0, 0, 0, 0)
+            if (newd < oldd) {
+                console.log(newd + ' ' + oldd)
+                console.log('Client does not have data for ' + new_date + ', fetching...')
                 fetchFuels(num)
             }
-            resolve()
-        })
-        checkIfReloadNeeded.then(() => changeFilter([1, {
-            cat: 'date',
-            val: getDate(num),
-            exp: '>='
+            
+            return Promise.resolve(new_date);
+        }
+        grabEarliestDate().then(([old_date, new_date]) => checkIfReloadNeeded([old_date, new_date]))
+                        .then((date) => changeFilter([1, {
+                            cat: 'date',
+                            val: date,
+                            exp: '>='
         }]))
         
     }
@@ -127,8 +146,9 @@ function ApiProvider({ children }) {
                     
                 } else if (rowFilt.cat==='date'){
                     const filterFunction = (row) => {
-
-                        return Date.parse(row.date) >= Date.parse(rowFilt.val);
+                        const rowdate = new Date(row.date).setHours(0, 0, 0, 0)
+                        const filtdate = new Date(rowFilt.val).setHours(0, 0, 0, 0)
+                        return rowdate >= filtdate;
                 
                     }
                     tempArray = tempArray.filter(filterFunction)
@@ -152,7 +172,9 @@ function ApiProvider({ children }) {
         <SearchContext.Provider value = { searchCat }>
         <UpdateSearchContext.Provider value = { changeSearchCat }>
         <UpdateDateContext.Provider value = { changeDateScope }>
+        <UseFilter.Provider value = { filterArray }>
             { children }
+        </UseFilter.Provider>
         </UpdateDateContext.Provider>
         </UpdateSearchContext.Provider>
         </SearchContext.Provider>
@@ -164,4 +186,4 @@ function ApiProvider({ children }) {
 
 
   export { ApiProvider, useApiContext, useUpdateContext, useSearchContext, useUpdateSearchContext,
-             useUpdateDateContext }
+             useUpdateDateContext, useFilter }
