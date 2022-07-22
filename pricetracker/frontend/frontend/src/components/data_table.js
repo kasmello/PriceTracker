@@ -83,7 +83,7 @@ function DataTable() {
   options = {options} />)
 }
 
-export { DataTable, useEnableSelect, SelectedChanger }
+export { DataTable, useEnableSelect, SelectedChanger, useSelect }
 
 
 
