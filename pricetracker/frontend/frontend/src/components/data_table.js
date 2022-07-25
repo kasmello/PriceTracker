@@ -27,7 +27,6 @@ function SelectedChanger({ children }) {
   )
 }
 
-
 const columns = (selected) => {
   return ([
     {

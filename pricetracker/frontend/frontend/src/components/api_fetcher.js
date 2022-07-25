@@ -4,9 +4,10 @@ import React, { useState, createContext, useContext, useEffect } from 'react';
 const ApiContext = createContext(); 
 const UpdateContext = createContext();
 const SearchContext = createContext();
-const UpdateSearchContext = createContext()
-const UpdateDateContext = createContext()
-const UseFilter = createContext()
+const UpdateSearchContext = createContext();
+const UpdateDateContext = createContext();
+const UseFilter = createContext();
+const RemoveDuplicates = createContext();
 
 function useApiContext() {
     return useContext(ApiContext)
@@ -32,13 +33,26 @@ function useFilter() {
     return useContext(UseFilter)
 }
 
+function useRemoveDuplicates() {
+    return useContext(RemoveDuplicates)
+}
+
 
 function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
     const [fuelview, setView] = useState([]);
-    const [places, setPlaces] = useState([]);
+    const [removeDuplicates, setRemoveDuplicates] = useState(false);
     const [searchCat, changeCat] = useState('brand');
+
+    const changeRemoveDuplicates = () => {
+        function changeDuplicates() {
+            setRemoveDuplicates(!removeDuplicates)
+            return Promise.resolve()
+        }
+        changeDuplicates().then(() => filterData(fuelprices))
+        
+    }
 
     const getDate = (num) => {
         const date = new Date();
@@ -48,17 +62,15 @@ function ApiProvider({ children }) {
         const year = date.getFullYear();
         return `${year}-${month}-${day}`
     }
+
     const [filterArray, setFilter] = useState([{
                             'cat': 'brand',
                             'val': ''
                                 },
                         {
                             'cat': 'date',
-                            'val': getDate(1)
+                            'val': getDate(1),
                         }]);
-
-    
-
     const getLink = (num) => {
         const date = getDate(num)
         console.log(`Fetching from http://127.0.0.1:8000/api/price/from=${date}/...`)
@@ -89,9 +101,8 @@ function ApiProvider({ children }) {
         }
         grabEarliestDate().then(([old_date, new_date]) => checkIfReloadNeeded([old_date, new_date]))
                         .then((date) => changeFilter([1, {
-                            cat: 'date',
-                            val: date,
-                            exp: '>='
+                            'cat': 'date',
+                            'val': date
         }]))
         
     }
@@ -111,16 +122,6 @@ function ApiProvider({ children }) {
         console.log(`changed category to ${category}`)
     }
 
-
-    const fetchPlaces = () => {
-        console.log('Fetching from http://127.0.0.1:8000/api/...')
-        fetch('http://127.0.0.1:8000/api/')
-        .then(response => response.json())
-        .then(json => {
-            setPlaces(json)
-        })
-    }
-
     const changeFilter = (filt) => {
         var tempArray = filterArray;
         tempArray[filt[0]] = filt[1]
@@ -131,6 +132,7 @@ function ApiProvider({ children }) {
     //example filter data
     //row.cat = "brand", row.val = "ampol", row.exp = "greater"
         let tempArray = fuelprices
+        console.log('lol')
         array.map((rowFilt) => {   
             if (Object.keys(rowFilt).length > 0) {   
                 if (rowFilt.cat === 'brand' || rowFilt.cat === 'address') {
@@ -147,7 +149,15 @@ function ApiProvider({ children }) {
                 } else if (rowFilt.cat==='date'){
                     const filterFunction = (row) => {
                         const rowdate = new Date(row.date).setHours(0, 0, 0, 0)
-                        const filtdate = new Date(rowFilt.val).setHours(0, 0, 0, 0)
+                        if (!removeDuplicates) {
+                            var filtdate = new Date(rowFilt.val).setHours(0, 0, 0, 0)
+                            console.log(removeDuplicates)
+                        } else { 
+                            const date = new Date();
+                            date.setDate(date.getDate()-1);
+                            var filtdate = date.setHours(0,0,0,0);
+                            console.log(removeDuplicates)
+                        }
                         return rowdate >= filtdate;
                 
                     }
@@ -173,7 +183,9 @@ function ApiProvider({ children }) {
         <UpdateSearchContext.Provider value = { changeSearchCat }>
         <UpdateDateContext.Provider value = { changeDateScope }>
         <UseFilter.Provider value = { filterArray }>
+        <RemoveDuplicates.Provider value = { changeRemoveDuplicates }>
             { children }
+        </RemoveDuplicates.Provider>
         </UseFilter.Provider>
         </UpdateDateContext.Provider>
         </UpdateSearchContext.Provider>
@@ -186,4 +198,4 @@ function ApiProvider({ children }) {
 
 
   export { ApiProvider, useApiContext, useUpdateContext, useSearchContext, useUpdateSearchContext,
-             useUpdateDateContext, useFilter }
+             useUpdateDateContext, useFilter, useRemoveDuplicates }
