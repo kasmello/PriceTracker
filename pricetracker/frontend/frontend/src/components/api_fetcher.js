@@ -16,15 +16,6 @@ function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
 
-    const changeRemoveDuplicates = () => {
-        function changeDuplicates() {
-            setRemoveDuplicates(!removeDuplicates)
-            return Promise.resolve()
-        }
-        changeDuplicates().then(() => filterData(fuelprices))
-        
-    }
-
     const getDate = (num) => {
         const date = new Date();
         date.setDate(date.getDate()-num);
