@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUpdateDateContext } from './api_fetcher';
+import { useEditDate } from './filter';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 function ChooseMultiTime() {
-    const updateSearch = useUpdateDateContext();
+    const updateSearch = useEditDate();
     const changeFilter = (filter) => {
         updateSearch(filter);
     }

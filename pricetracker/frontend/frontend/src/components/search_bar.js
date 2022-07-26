@@ -1,20 +1,14 @@
 import React, { useState } from 'react'
-import { useUpdateContext, useSearchContext } from './api_fetcher';
+import { useEditString, useGetCat } from './filter';
 
 function SearchBar() {
     const [searchInput, setSearchInput] = useState("");
-    const curCat = useSearchContext();
-    const filterData = useUpdateContext()
+    const curCat = useGetCat();
+    const filterSearch = useEditString()
     const handleChange = (e) => {
         // e.preventDefault();
         setSearchInput(e.target.value);
-        filterData([0,
-            {
-                cat: curCat,
-                val: e.target.value,
-                exp: '='
-            }
-        ]);
+        filterSearch(e.target.value);
     };
     return (
     

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUpdateSearchContext } from './api_fetcher';
+import { useEditCat } from './filter';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,9 +7,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 function ChooseMultiCategory() {
-    const updateSearch = useUpdateSearchContext();
+    const updateCat = useEditCat();
     const changeFilter = (filter) => {
-        updateSearch(filter.toLowerCase());
+        updateCat(filter.toLowerCase());
     }
     return (
         <FormControl className='catRadio'>

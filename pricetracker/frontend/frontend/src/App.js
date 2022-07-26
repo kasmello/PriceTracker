@@ -1,5 +1,6 @@
 import React from 'react';
 import { ApiProvider } from './components/api_fetcher';
+import { FilterProvider } from './components/filter';
 import FuelView from './components/fuelview';
 import WelcomePage from './components/welcome_page';
 import { PageNotFound, About } from './components/misc_pages';
@@ -17,6 +18,7 @@ import './App.css';
 const App = () => {
     return ( 
       <ApiProvider>  
+      <FilterProvider>
       <SelectedChanger>  
         <Router>
           <h1 className='Title'>PriceTracker</h1>
@@ -33,6 +35,7 @@ const App = () => {
         </div>
       </Router>
     </SelectedChanger> 
+    </FilterProvider>
     </ApiProvider> 
     );
 
