@@ -1,6 +1,5 @@
 import React from 'react';
 import { SearchBar } from './search_bar.js';
-import SearchDropDown from './search_drop_down';
 import ChooseMultiCategory from './category_radio_buttons.js';
 import ChooseMultiTime from './time_radio_buttons.js';
 import Chart from './timeseries';

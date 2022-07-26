@@ -3,12 +3,12 @@ import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts";
 import MSLine from "fusioncharts/fusioncharts.charts";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-import { useApiContext } from './api_fetcher.js';
+import { getFilteredData } from './filter';
 
 ReactFC.fcRoot(FusionCharts, MSLine, FusionTheme);
 
 const tableData = () => {
-    const fuelprices = useApiContext();//fuel data
+    const fuelprices = getFilteredData();//fuel data
     var fueldata = [];
 }
 

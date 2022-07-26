@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react"
 import MUIDataTable from "mui-datatables";
-import { useApiContext } from './api_fetcher.js';//import these to use api
+import { getFilteredData, useEditDup } from "./filter";
 
 const EnableSelect = createContext()
 const SelectContext = createContext()
@@ -15,8 +15,10 @@ function useSelect() {
 
 function SelectedChanger({ children }) {
   const [selected, selectedEnable] = useState('none')
+  const editDup = useEditDup()
   const changeSelected = () => {
     selectedEnable(selected == 'none' ? 'multiple' : 'none')
+    editDup()
   }
   return (
     <SelectContext.Provider value = { selected }>
@@ -78,11 +80,11 @@ const options = (selected) => {
 };
 
 function DataTable() {
-  const fuelprices = useApiContext();//fuel array
+  const fuelprices = getFilteredData();//fuel array
   const selected = useSelect();
   
   return(<MUIDataTable
-    data={fuelprices}
+    data={fuelprices()}
     columns={columns(selected)}
     options = {options(selected)} />)
 }
