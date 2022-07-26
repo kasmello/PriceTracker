@@ -7,9 +7,43 @@ import { getFilteredData } from './filter';
 
 ReactFC.fcRoot(FusionCharts, MSLine, FusionTheme);
 
-const tableData = () => {
+const getDate = (num) => {
+    const date = new Date();
+    date.setDate(date.getDate()-num);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`
+}
+
+const incrementDate = (date) => {
+    const new_date = new Date(date)
+    new_date.setDate(new_date.getDate()+1);
+    const day = new_date.getDate();
+    const month = new_date.getMonth() + 1;
+    const year = new_date.getFullYear();
+    return `${year}-${month}-${day}`
+}
+
+const getAllDatesTilCurr = (date, curr) => {
+    let temp_arr = {"category":[]};
+    while (Date.parse(date) <= Date.parse(curr)) {
+        let temp_object = {'label': date}
+        temp_arr.category.push(temp_object)
+        date = incrementDate(date)
+
+    }
+    return temp_arr
+}
+
+const tableData = (filter) => {
     const fuelprices = getFilteredData();//fuel data
     var fueldata = [];
+    const filtdate = filter[1].val
+    const currdate = getDate(0)
+    const dates = getAllDatesTilCurr(filtdate, currdate)
+    return dates
+
 }
 
 
