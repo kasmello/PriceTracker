@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { useEditString, useGetCat } from './filter';
+import { useEditString, useSearchView, useCatView } from './filter';
 
 function SearchBar() {
-    const [searchInput, setSearchInput] = useState("");
-    const curCat = useGetCat();
+    const curInput = useSearchView();
+    const curCat = useCatView();
     const filterSearch = useEditString()
     const handleChange = (e) => {
         // e.preventDefault();
-        setSearchInput(e.target.value);
         filterSearch(e.target.value);
     };
     return (
@@ -18,7 +17,7 @@ function SearchBar() {
             name="searchBar"
             placeholder= {curCat.charAt(0).toUpperCase() + curCat.slice(1) + " "  +"Filter"} 
             onChange={handleChange}
-            value={searchInput} />
+            value={curInput} />
         </div> 
     
     );

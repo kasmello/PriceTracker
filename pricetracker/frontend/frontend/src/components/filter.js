@@ -4,8 +4,10 @@ import { useApiContext, editDateScope } from './api_fetcher';
 const EditDate = createContext();
 const EditString = createContext();
 const EditCat = createContext();
-const GetCat = createContext();
 const EditDup = createContext();
+const TimeView = createContext()
+const CatView = createContext()
+const SearchView = createContext()
 const FilteredData = createContext();
 
 function getFilteredData() {
@@ -24,8 +26,16 @@ function useEditCat() {
     return useContext(EditCat)
 }
 
-function useGetCat() {
-    return useContext(GetCat)
+function useTimeView() {
+    return useContext(TimeView)
+}
+
+function useCatView() {
+    return useContext(CatView)
+}
+
+function useSearchView() {
+    return useContext(SearchView)
 }
 
 function useEditDup() {
@@ -62,8 +72,8 @@ function FilterProvider({ children }) {
         setString(string)
     }
 
-    const editCat = (string) => {
-        setCat(string)
+    const editCat = () => {
+        setCat(catFilter == 'brand' ? 'address' : 'brand')
     }
 
     const editRemove = () => {
@@ -111,9 +121,13 @@ function FilterProvider({ children }) {
         <EditCat.Provider value = { editCat }>
         <EditString.Provider value = { editString }>
         <EditDate.Provider value = { editDate }>
-        <GetCat.Provider value = { catFilter }>
+        <TimeView.Provider value={ dateFilter }>
+        <CatView.Provider value={ catFilter }>
+        <SearchView.Provider value={ stringFilter }>
             { children }
-        </GetCat.Provider>
+        </SearchView.Provider>
+        </CatView.Provider>
+        </TimeView.Provider>
         </EditDate.Provider>
         </EditString.Provider>
         </EditCat.Provider>
@@ -123,4 +137,5 @@ function FilterProvider({ children }) {
     )
 }
 
-export { FilterProvider, useEditDate, useEditCat, useEditDup, useEditString, getFilteredData, useGetCat }
+export { FilterProvider, useEditDate, useEditCat, useEditDup, useEditString, getFilteredData,
+        useTimeView, useCatView, useSearchView }

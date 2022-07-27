@@ -36,22 +36,14 @@ const getAllDatesTilCurr = (date, curr) => {
     return temp_arr
 }
 
-const tableData = (filter) => {
-    const fuelprices = getFilteredData();//fuel data
-    var fueldata = [];
-    const filtdate = filter[1].val
-    const currdate = getDate(0)
-    const dates = getAllDatesTilCurr(filtdate, currdate)
-    return dates
 
-}
 
 
 function Chart() {
-    const fueldata = tableData();//fuel data
+    const linedata = [];//fuel data
 
     const chartConfigs =  {
-        type: "line", // The chart type
+        type: "msline", // The chart type
         width: "700", // Width of the chart
         height: "400", // Height of the chart
         dataFormat: "json", // Data type
@@ -65,7 +57,7 @@ function Chart() {
             theme: "fusion"                 //Set the theme for your chart
         },
         // Chart Data - from step 2
-        data: []
+        data: linedata
         }
     };
 

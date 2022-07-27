@@ -75,7 +75,10 @@ const options = (selected) => {
     print: false, 
     viewColumns: false,
     filter: false,
-    customToolbarSelect: () => {}
+    customToolbarSelect: () => {},
+    onRowSelectionChange: (a,b,c) => {{
+      console.log(b)
+    }}
   })
 };
 

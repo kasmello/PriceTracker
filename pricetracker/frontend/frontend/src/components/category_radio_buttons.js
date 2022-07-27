@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useEditCat } from './filter';
+import { useEditCat, useCatView } from './filter';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -8,8 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 
 function ChooseMultiCategory() {
     const updateCat = useEditCat();
-    const changeFilter = (filter) => {
-        updateCat(filter.toLowerCase());
+    const curCat = useCatView()
+    const changeFilter = () => {
+        updateCat();
     }
     return (
         <FormControl className='catRadio'>
@@ -18,8 +19,8 @@ function ChooseMultiCategory() {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                defaultValue="brand"
-                onChange={(e,value) => changeFilter(value)}
+                defaultValue={curCat}
+                onChange={(e,value) => changeFilter()}
             >
                 <FormControlLabel value="brand" control={<Radio />} label="Brand" />
                 <FormControlLabel value="address" control={<Radio />} label="Address" />

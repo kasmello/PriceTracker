@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useEditDate } from './filter';
+import { useEditDate, useTimeView } from './filter';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,9 +7,10 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 function ChooseMultiTime() {
-    const updateSearch = useEditDate();
+    const updateDate = useEditDate();
+    const curTime = useTimeView()
     const changeFilter = (filter) => {
-        updateSearch(filter);
+        updateDate(filter);
     }
 
     return (
@@ -19,7 +20,7 @@ function ChooseMultiTime() {
             <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
-                defaultValue="1"
+                defaultValue={curTime}
                 name="row-radio-buttons-group"
                 onChange={(e,value) => changeFilter(value)}
             >
