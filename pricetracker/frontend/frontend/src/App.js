@@ -11,6 +11,7 @@ import {
   Route
 } from 'react-router-dom';
 import { SelectedChanger } from './components/data_table';
+import { ViewProvider } from './components/view.js'
 import './App.css';
 
 // using a class instead of function/const allows for states
@@ -19,6 +20,7 @@ const App = () => {
     return ( 
       <ApiProvider>  
       <FilterProvider>
+      <ViewProvider>
       <SelectedChanger>  
         <Router>
           <h1 className='Title'>PriceTracker</h1>
@@ -34,7 +36,8 @@ const App = () => {
             </div>
         </div>
       </Router>
-    </SelectedChanger> 
+    </SelectedChanger>
+    </ViewProvider> 
     </FilterProvider>
     </ApiProvider> 
     );
