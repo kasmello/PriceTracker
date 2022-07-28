@@ -65,7 +65,6 @@ function Chart() {
     return (
         <div>
             <ReactFC {...chartConfigs} />
-            <a href="">test</a>
         </div>
     )
 }

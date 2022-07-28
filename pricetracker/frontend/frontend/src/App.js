@@ -1,6 +1,6 @@
 import React from 'react';
 import { ApiProvider } from './components/api_fetcher';
-import { FilterProvider } from './components/filter';
+import { FilterProvider, FuelSelectProvider } from './components/filter';
 import FuelView from './components/fuelview';
 import WelcomePage from './components/welcome_page';
 import { PageNotFound, About } from './components/misc_pages';
@@ -10,7 +10,6 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import { SelectedChanger } from './components/data_table';
 import { ViewProvider } from './components/view.js'
 import './App.css';
 
@@ -20,8 +19,8 @@ const App = () => {
     return ( 
       <ApiProvider>  
       <FilterProvider>
+      <FuelSelectProvider>
       <ViewProvider>
-      <SelectedChanger>  
         <Router>
           <h1 className='Title'>PriceTracker</h1>
           <div className="App">
@@ -36,8 +35,8 @@ const App = () => {
             </div>
         </div>
       </Router>
-    </SelectedChanger>
     </ViewProvider> 
+    </FuelSelectProvider>
     </FilterProvider>
     </ApiProvider> 
     );
