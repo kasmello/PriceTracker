@@ -1,33 +1,7 @@
-import React, { createContext, useContext, useState } from "react"
+import React from "react"
 import MUIDataTable from "mui-datatables";
-import { getFilteredData, useEditDup } from "./filter";
-
-const EnableSelect = createContext()
-const SelectContext = createContext()
-
-function useEnableSelect() {
-  return useContext(EnableSelect)
-}
-
-function useSelect() {
-  return useContext(SelectContext)
-}
-
-function SelectedChanger({ children }) {
-  const [selected, selectedEnable] = useState('none')
-  const editDup = useEditDup()
-  const changeSelected = () => {
-    selectedEnable(selected == 'none' ? 'multiple' : 'none')
-    editDup()
-  }
-  return (
-    <SelectContext.Provider value = { selected }>
-    <EnableSelect.Provider value = { changeSelected }>
-      { children }
-    </EnableSelect.Provider>
-    </SelectContext.Provider>
-  )
-}
+import { getFilteredData, useEditSelect, useFuelSelect } from "./filter";
+import { useEnableSelect, useSelect } from "./view";
 
 const columns = (selected) => {
   return ([
@@ -67,32 +41,40 @@ const columns = (selected) => {
     },
   ])};
 
-const options = (selected) => {
-  return ({
-    selectableRows: selected, 
-    download: false,
-    search: false,
-    print: false, 
-    viewColumns: false,
-    filter: false,
-    customToolbarSelect: () => {},
-    onRowSelectionChange: (a,b,c) => {{
-      console.log(b)
-    }}
-  })
-};
 
 function DataTable() {
-  const fuelprices = getFilteredData();//fuel array
+  const getdatafunc = getFilteredData();//fuel array
+  const fuelprices = getdatafunc()
   const selected = useSelect();
+  const editfuel = useEditSelect();
+  const selectedfuels = useFuelSelect();
+  const options = () => {
+    return ({
+      selectableRows: selected, 
+      download: false,
+      search: selected=='none' ? false : true,
+      print: false, 
+      viewColumns: false,
+      filter: false,
+      rowsSelected: selectedfuels,
+      selectToolbarPlacement: 'above',
+      customToolbarSelect: () => {},
+      onRowSelectionChange: (a,b,allRowIndexes) => {
+        editfuel(allRowIndexes);
+      },
+      draggableColumns: {
+        enabled: true,
+      },
+    })
+  };
   
   return(<MUIDataTable
-    data={fuelprices()}
+    data={fuelprices}
     columns={columns(selected)}
-    options = {options(selected)} />)
+    options = {options()} />)
 }
 
-export { DataTable, useEnableSelect, SelectedChanger, useSelect }
+export { DataTable, useEnableSelect, useSelect }
 
 
 

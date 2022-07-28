@@ -9,6 +9,8 @@ const TimeView = createContext()
 const CatView = createContext()
 const SearchView = createContext()
 const FilteredData = createContext();
+const FuelSelect = createContext();
+const EditFuelSelect = createContext();
 
 function getFilteredData() {
     return useContext(FilteredData)
@@ -42,6 +44,14 @@ function useEditDup() {
     return useContext(EditDup)
 }
 
+function useFuelSelect() {
+    return useContext(FuelSelect)
+}
+
+function useEditSelect() {
+    return useContext(EditFuelSelect)
+}
+
 function rmDuplicates(a) {
     var seen = {};
     return a.filter(function(item) {
@@ -56,6 +66,22 @@ const getDate = (num) => {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     return `${year}-${month}-${day}`
+}
+
+function FuelSelectProvider({ children }){
+    const [fuelSelected, changeSelected] = useState([])
+
+    const editSelected = (newarray) => {
+        changeSelected(newarray)
+    }
+
+    return (
+        <FuelSelect.Provider value = {fuelSelected}>
+        <EditFuelSelect.Provider value = {editSelected}>
+            { children }
+        </EditFuelSelect.Provider>
+        </FuelSelect.Provider>
+    )
 }
 
 function FilterProvider({ children }) {
@@ -138,4 +164,4 @@ function FilterProvider({ children }) {
 }
 
 export { FilterProvider, useEditDate, useEditCat, useEditDup, useEditString, getFilteredData,
-        useTimeView, useCatView, useSearchView }
+        useTimeView, useCatView, useSearchView, FuelSelectProvider, useFuelSelect, useEditSelect }
