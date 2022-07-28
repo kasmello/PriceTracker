@@ -1,7 +1,7 @@
 import React from "react"
 import MUIDataTable from "mui-datatables";
 import { getFilteredData, useEditSelect, useFuelSelect } from "./filter";
-import { useEnableSelect, useSelect } from "./view";
+import { useEnableSelect, useSelect } from "./view.js";
 
 const columns = (selected) => {
   return ([
@@ -59,8 +59,10 @@ function DataTable() {
       rowsSelected: selectedfuels,
       selectToolbarPlacement: 'above',
       customToolbarSelect: () => {},
-      onRowSelectionChange: (a,b,allRowIndexes) => {
-        editfuel(allRowIndexes);
+      onRowSelectionChange: (currSelectedRow,allSelectedRows,allRowIndexes) => {
+        editfuel(allSelectedRows.map(row => {
+          return row.dataIndex
+        }));
       },
       draggableColumns: {
         enabled: true,

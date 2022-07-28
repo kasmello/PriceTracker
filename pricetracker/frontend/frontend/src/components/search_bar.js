@@ -6,7 +6,7 @@ function SearchBar() {
     const curCat = useCatView();
     const filterSearch = useEditString()
     const handleChange = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         filterSearch(e.target.value);
     };
     return (
