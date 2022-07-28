@@ -29,6 +29,7 @@ const columns = (selected) => {
       display: (selected == 'none' ? true : false),
       filter: false,
       sort: true,
+      customBodyRender: value => <span>{value}c/L</span>
       }
     },
     {
