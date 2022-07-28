@@ -1,11 +1,13 @@
 //this file is here to maintain state of pages when rendering/derendering components
 
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useRef } from 'react';
 
 const DataView = createContext()
 const EditDataView = createContext()
 const EnableSelect = createContext()
 const SelectContext = createContext()
+const Ref = createContext()
+
 
 function useEnableSelect() {
   return useContext(EnableSelect)
@@ -22,9 +24,17 @@ function editDataView() {
     return useContext(EditDataView)
 }
 
+function useHeaderRef() {
+    return useContext(Ref)
+}
+
+
+
 function ViewProvider({ children }) {
     const [dataview, setDataView] = useState('table')
     const [selected, selectedEnable] = useState('none')
+    const headerRef = useRef(null)
+
     const changeSelected = () => {
         selectedEnable(selected == 'none' ? 'multiple' : 'none')
     }
@@ -34,13 +44,14 @@ function ViewProvider({ children }) {
     }
 
 
-
     return (
         <EnableSelect.Provider value = { changeSelected }>
         <SelectContext.Provider value = { selected }>
         <DataView.Provider value={dataview}>
         <EditDataView.Provider value={updateDataView}>
+        <Ref.Provider value = {headerRef}>
             { children }
+        </Ref.Provider>
         </EditDataView.Provider>
         </DataView.Provider>
         </SelectContext.Provider>
@@ -48,4 +59,4 @@ function ViewProvider({ children }) {
     );
 }
 
-export { ViewProvider, useDataView, editDataView, useEnableSelect, useSelect }
+export { ViewProvider, useDataView, editDataView, useEnableSelect, useSelect, useHeaderRef }
