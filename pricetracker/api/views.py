@@ -18,12 +18,14 @@ def GetFuel(request):
 
 @api_view(['GET'])
 def GetPrice(request, date_from=None, date_to=None, address_id=None):
-    fuels = FuelPrice.objects.all().order_by('-date')
     if date_from:
+        fuels = FuelPrice.objects.all().order_by('-date')
         fuels = fuels.filter(date__gte = date_from)
     if date_to:
+        fuels = FuelPrice.objects.all().order_by('-date')
         fuels = fuels.filter(date__lte = date_to)
     if address_id:
+        fuels = FuelPrice.objects.all().order_by('date')
         fuels = fuels.filter(address = address_id)
     # if not dates:
     #     AddData(0) #very temp solution
