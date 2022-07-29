@@ -17,12 +17,14 @@ def GetFuel(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def GetPrice(request, date_from=None, date_to=None):
+def GetPrice(request, date_from=None, date_to=None, address_id=None):
     fuels = FuelPrice.objects.all().order_by('-date')
     if date_from:
         fuels = fuels.filter(date__gte = date_from)
     if date_to:
         fuels = fuels.filter(date__lte = date_to)
+    if address_id:
+        fuels = fuels.filter(address = address_id)
     # if not dates:
     #     AddData(0) #very temp solution
     #     dates = dates.filter(date__gte = date_from).filter(date__lte = date_to)

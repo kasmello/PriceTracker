@@ -8,7 +8,8 @@ class FuelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FuelPriceSerializer(serializers.ModelSerializer):
+    place_id = serializers.IntegerField(source='address.id')
     address = serializers.StringRelatedField(many=False, read_only=True)
     class Meta:
         model = FuelPrice
-        fields = '__all__'
+        fields = ('brand','price','date','address','place_id')
