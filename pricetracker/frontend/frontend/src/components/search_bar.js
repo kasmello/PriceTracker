@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useEditString, useSearchView, useCatView } from './filter';
 
 function SearchBar() {
@@ -22,4 +22,4 @@ function SearchBar() {
     
     );
 }
-export { SearchBar };
+export default SearchBar;

@@ -3,6 +3,10 @@ import React, { useState, createContext, useContext, useEffect } from 'react';
 
 const ApiContext = createContext(); 
 const ChangeDateScope = createContext();
+const GraphContext = createContext()
+const ChangeGraph = createContext()
+const PlaceSelect = createContext();
+const EditPlaceSelect = createContext();
 
 function useApiContext() {
     return useContext(ApiContext)
@@ -12,11 +16,29 @@ function editDateScope() {
     return useContext(ChangeDateScope)
 }
 
+function useGraphContext() {
+    return useContext(GraphContext)
+}
+
+function useEditGraph() {
+    return useContext(ChangeGraph)
+}
+
+function usePlaceSelect() {
+    return useContext(PlaceSelect)
+}
+
+function editPlaceSelect() {
+    return useContext(EditPlaceSelect)
+}
+
 
 function ApiProvider({ children }) {
 
     const [fuelprices, setPrices] = useState([]);
     const [maxFilter, setMax] = useState(1)
+    const [graphData, setGraphData] = useState([])
+    const [placeSelect, setPlaceSelect] = useState([])
 
     const getDate = (num) => {
         const date = new Date();
@@ -26,11 +48,24 @@ function ApiProvider({ children }) {
         const year = date.getFullYear();
         return `${year}-${month}-${day}`
     }
-    const getLink = (num) => {
+
+    const changePlaceSelect = (num_list) => {
+        setPlaceSelect(num_list)
+    }
+
+
+    const getDateLink = (num) => {
         const date = getDate(num)
-        console.log(`Fetching from http://127.0.0.1:8000/api/price/from=${date}/...`)
-        return `http://127.0.0.1:8000/api/price/from=${date}/`
+        const date_string = (`http://127.0.0.1:8000/api/price/from=${date}/`)
+        console.log(`Fetching from ${date_string}`)
+        return date_string
     };
+
+    const getPlaceLink = (num) => {
+        const place_string = (`http://127.0.0.1:8000/api/price/address_id=${num}/`)
+        console.log(`Fetching from ${place_string}`)
+        return place_string
+    }
 
     const changeDateScope = (num) => {          
         const checkIfReloadNeeded = (old_num, new_num) => {
@@ -44,13 +79,28 @@ function ApiProvider({ children }) {
     }
 
     const fetchFuels = (num) => {
-            fetch(getLink(num))
+            fetch(getDateLink(num))
             .then(response => response.json()) //converts data
             .then(json => {
                 setPrices(json)
             })
             
         };
+
+    const fetchPlacePrices = (list_of_index) => {
+        setGraphData(list_of_index.map(num => {
+            return fetch(getPlaceLink(num))
+            .then(response => response.json()) //converts data
+            .then(json => json.map(row => {
+                return ({value: row.price})
+            }))
+            .then(list_of_obj => { 
+                const dataname = (`${list_of_obj[0].name} - ${list_of_obj[0].address}`)
+                return {seriesname: dataname, data: list_of_obj}
+            })
+        }))
+        
+    };
 
 
     useEffect(() => {
@@ -61,7 +111,15 @@ function ApiProvider({ children }) {
     return (
         <ApiContext.Provider value = { fuelprices }>
         <ChangeDateScope.Provider value = { changeDateScope }>
+        <GraphContext.Provider value = {graphData}>
+        <ChangeGraph.Provider value = {fetchPlacePrices}>
+        <PlaceSelect.Provider value={placeSelect}>
+        <EditPlaceSelect.Provider value={changePlaceSelect}>
             { children }
+        </EditPlaceSelect.Provider>
+        </PlaceSelect.Provider>
+        </ChangeGraph.Provider>
+        </GraphContext.Provider>
         </ChangeDateScope.Provider>
         </ApiContext.Provider>
     );
@@ -69,4 +127,4 @@ function ApiProvider({ children }) {
 }
 
 
-  export { ApiProvider, useApiContext, editDateScope }
+  export { ApiProvider, useApiContext, editDateScope, useGraphContext, useEditGraph, usePlaceSelect, editPlaceSelect }

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { ApiProvider } from './components/api_fetcher';
-import { FilterProvider, FuelSelectProvider } from './components/filter';
-import FuelView from './components/fuelview';
+import { FilterProvider } from './components/filter';
+import ToggleView from './components/fuelview';
 import WelcomePage from './components/welcome_page';
 import { PageNotFound, About } from './components/misc_pages';
 import Navbar from './components/header';
@@ -10,41 +10,50 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import { ViewProvider } from './components/view.js'
 import './App.css';
 
 // using a class instead of function/const allows for states
 
-const App = () => {
-    return ( 
-      <ApiProvider>  
+function App() {
+  const [dataview, setDataView] = useState('table')
+  const [selected, selectedEnable] = useState('none')
+  const headerRef = useRef(null)
+  const changeSelected = () => {
+    selectedEnable(selected == 'none' ? 'multiple' : 'none')
+  }
+
+  const updateDataView = () => {
+      setDataView(dataview=='table' ? 'graph' : 'table')
+  }
+
+  return ( 
+    <Router>
+      <h1 className='Title'>PriceTracker</h1>
+      <div className="App">
+      <ApiProvider> 
       <FilterProvider>
-      <FuelSelectProvider>
-      <ViewProvider>
-        <Router>
-          <h1 className='Title'>PriceTracker</h1>
-          <div className="App">
-          <Navbar />
-            <div className="Content">
-              <Routes>
-                <Route exact path="/" element={<WelcomePage />} />
-                <Route path="/fuelview" element={<FuelView />} />
-                <Route path="/about" element={<About />} />
-                <Route element={<PageNotFound />} />
-              </Routes>
-            </div>
+      <Navbar headerRef={headerRef}/>
+        <div className="Content">
+          <Routes>
+            <Route exact path="/" element={<WelcomePage />} />
+            <Route path="/fuelview" element={
+              <>
+                <h1>Table of all prices recorded this month</h1>          
+                <ToggleView dataview={dataview} updateDataView={updateDataView} 
+                selected={selected} changeSelected={changeSelected} headerRef={headerRef}/> 
+              </>
+              } />
+            <Route path="/about" element={<About />} />
+            <Route element={<PageNotFound />} />
+          </Routes>
         </div>
-      </Router>
-    </ViewProvider> 
-    </FuelSelectProvider>
-    </FilterProvider>
-    </ApiProvider> 
-    );
-
-
-  // }
-
+      </FilterProvider>
+      </ApiProvider> 
+    </div>
+  </Router>
   
+  );
+
 }
 
 export default App;

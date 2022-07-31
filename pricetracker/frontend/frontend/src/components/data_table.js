@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import MUIDataTable from "mui-datatables";
-import { getFilteredData, useEditSelect, useFuelSelect } from "./filter";
-import { useEnableSelect, useSelect } from "./view.js";
+import { getFilteredData } from "./filter";
+import { editPlaceSelect } from "./api_fetcher";
 
 const columns = (selected) => {
   return ([
@@ -42,42 +42,44 @@ const columns = (selected) => {
     },
   ])};
 
+const options = (selected,selectedRows,fuelprices,changePlaceSelect, setSelectedRows) => {
+  return ({
+  selectableRows: selected, 
+  download: false,
+  search: selected=='none' ? false : true,
+  print: false, 
+  viewColumns: false,
+  filter: false,
+  rowsSelected: selectedRows,
+  selectToolbarPlacement: 'above',
+  customToolbarSelect: () => {},
+  onRowSelectionChange: (currSelectedRow,allSelectedRows,allRowIndexes) => {
+    var placeIndex = []
+    setSelectedRows(allSelectedRows.map(row => {
+      placeIndex.push(fuelprices[row.dataIndex].place_id)
+      return row.dataIndex
+    }));
+    console.log(placeIndex)
+    changePlaceSelect(placeIndex)
+  },
+  draggableColumns: {
+    enabled: true,
+  },
+  })}
 
-function DataTable() {
+function DataTable(props) {
   const getdatafunc = getFilteredData();//fuel array
   const fuelprices = getdatafunc()
-  const selected = useSelect();
-  const editfuel = useEditSelect();
-  const selectedfuels = useFuelSelect();
-  const options = () => {
-    return ({
-      selectableRows: selected, 
-      download: false,
-      search: selected=='none' ? false : true,
-      print: false, 
-      viewColumns: false,
-      filter: false,
-      rowsSelected: selectedfuels,
-      selectToolbarPlacement: 'above',
-      customToolbarSelect: () => {},
-      onRowSelectionChange: (currSelectedRow,allSelectedRows,allRowIndexes) => {
-        editfuel(allSelectedRows.map(row => {
-          return row.dataIndex
-        }));
-      },
-      draggableColumns: {
-        enabled: true,
-      },
-    })
-  };
+  const [selectedRows, setSelectedRows] = useState([]);
+  const changePlaceSelect = editPlaceSelect();
   
   return(<MUIDataTable
     data={fuelprices}
-    columns={columns(selected)}
-    options = {options()} />)
+    columns={columns(props.selected)}
+    options = {options(props.selected,selectedRows,fuelprices,changePlaceSelect, setSelectedRows)} />)
 }
 
-export { DataTable, useEnableSelect, useSelect }
+export default DataTable
 
 
 
