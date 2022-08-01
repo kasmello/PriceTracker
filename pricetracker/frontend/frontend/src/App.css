@@ -71,7 +71,8 @@
 
 .ViewContainer {
   display: flex;
-  margin-left: 40vmin;
+  margin-left: 35vmin;
+  margin-right: 35vmin;
 
 }
 
@@ -89,8 +90,8 @@
   padding-top: 4px;
   padding-bottom: 4px;
   width: 12em;
-  margin-left: 10vmin;
-  margin-top: 2em;
+  margin-left: 6em;
+  margin-top: 3em;
 
 }
 
@@ -98,10 +99,10 @@
 
 td {
   text-align: center;
-  width: 15em;
+  width: 30em;
 }
 
 tr {
-  height: 3em;
+  height: 2em;
 }
 
