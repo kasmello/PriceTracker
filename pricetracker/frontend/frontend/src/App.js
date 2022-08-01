@@ -18,12 +18,15 @@ function App() {
   const [dataview, setDataView] = useState('table')
   const [selected, selectedEnable] = useState('none')
   const headerRef = useRef(null)
-  const changeSelected = () => {
-    selectedEnable(selected == 'none' ? 'multiple' : 'none')
+
+  const changeOrGetSelected = (change=false) => {
+    if (change) {selectedEnable(selected == 'none' ? 'multiple' : 'none')}
+    return selected
   }
 
-  const updateDataView = () => {
-      setDataView(dataview=='table' ? 'graph' : 'table')
+  const changeOrGetDataView = (change=false) => {
+    if (change) {setDataView(dataview=='table' ? 'graph' : 'table')}
+    return dataview
   }
 
   return ( 
@@ -39,8 +42,8 @@ function App() {
             <Route path="/fuelview" element={
               <>
                 <h1>Table of all prices recorded this month</h1>          
-                <ToggleView dataview={dataview} updateDataView={updateDataView} 
-                selected={selected} changeSelected={changeSelected} headerRef={headerRef}/> 
+                <ToggleView changeOrGetDataView={changeOrGetDataView} 
+                changeOrGetSelected={changeOrGetSelected} headerRef={headerRef}/> 
               </>
               } />
             <Route path="/about" element={<About />} />

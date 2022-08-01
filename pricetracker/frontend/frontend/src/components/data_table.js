@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import MUIDataTable from "mui-datatables";
 import { getFilteredData } from "./filter";
 import { editPlaceSelect } from "./api_fetcher";
@@ -72,7 +72,11 @@ function DataTable(props) {
   const fuelprices = getdatafunc()
   const [selectedRows, setSelectedRows] = useState([]);
   const changePlaceSelect = editPlaceSelect();
-  
+
+  useEffect(() => {
+    console.log('Selected rows reset')
+    changePlaceSelect([])
+    setSelectedRows([])},fuelprices)
   return(<MUIDataTable
     data={fuelprices}
     columns={columns(props.selected)}

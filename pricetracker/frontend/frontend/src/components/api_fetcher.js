@@ -1,5 +1,6 @@
 //use function with usestate/useeffect hook
 import React, { useState, createContext, useContext, useEffect } from 'react';
+import { parseDate } from "fusioncharts/utils" 
 
 const ApiContext = createContext(); 
 const ChangeDateScope = createContext();
@@ -49,6 +50,17 @@ function ApiProvider({ children }) {
         return `${year}-${month}-${day}`
     }
 
+    // const changeDateForFusion = (date) => {
+    //     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    //         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    //         ];
+    //     var d = new Date(date)
+    //     const day = d.getDate();
+    //     const month = monthNames[d.getMonth()];
+    //     const year = d.getFullYear();
+    //     return `${day}-${month}-${year}`
+    // }
+
     const changePlaceSelect = (num_list) => {
         setPlaceSelect(num_list)
     }
@@ -60,12 +72,6 @@ function ApiProvider({ children }) {
         console.log(`Fetching from ${date_string}`)
         return date_string
     };
-
-    const getPlaceLink = (num) => {
-        const place_string = (`http://127.0.0.1:8000/api/price/address_id=${num}/`)
-        console.log(`Fetching from ${place_string}`)
-        return place_string
-    }
 
     const changeDateScope = (num) => {          
         const checkIfReloadNeeded = (old_num, new_num) => {
@@ -83,23 +89,32 @@ function ApiProvider({ children }) {
             .then(response => response.json()) //converts data
             .then(json => {
                 setPrices(json)
-            })
-            
+            }) 
         };
 
-    const fetchPlacePrices = (list_of_index) => {
-        setGraphData(list_of_index.map(num => {
-            return fetch(getPlaceLink(num))
-            .then(response => response.json()) //converts data
-            .then(json => json.map(row => {
-                return ({value: row.price})
-            }))
-            .then(list_of_obj => { 
-                const dataname = (`${list_of_obj[0].name} - ${list_of_obj[0].address}`)
-                return {seriesname: dataname, data: list_of_obj}
+    const getPlaceLink = (num) => {
+        const place_string = (`http://127.0.0.1:8000/api/price/address_id=${num}/`)
+        console.log(`Fetching from ${place_string}`)
+        return place_string
+    }
+
+    const fetchPlacePrices = async () => {
+        const getAllPrices = () => {
+            return Promise.all(placeSelect.map(num => {
+                return fetch(getPlaceLink(num))
+                .then(response => response.json())
+            })) 
+        }
+        var x = await getAllPrices()
+        var final_array = []
+        x.forEach(company => {
+            company.forEach(row => {
+                final_array.push([parseDate(row.date, '%Y-%m-%d'), (`${row.brand} - ${row.address}`), row.price])
             })
-        }))
-        
+        })
+        console.log(final_array)
+        setGraphData(final_array)
+
     };
 
 

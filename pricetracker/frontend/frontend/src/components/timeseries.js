@@ -1,40 +1,59 @@
 import React from "react";
-import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts";
-import MSLine from "fusioncharts/fusioncharts.charts";
-import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import TimeSeries from "fusioncharts/fusioncharts.timeseries";
+import ReactFC from 'react-fusioncharts';
 import { useGraphContext } from './api_fetcher.js'
 
-ReactFC.fcRoot(FusionCharts, MSLine, FusionTheme);
-
+// https://www.fusioncharts.com/fusiontime/examples/plotting-multiple-series-on-time-axis?framework=react
+// fusion charts is so annoying to use
+ReactFC.fcRoot(FusionCharts, TimeSeries);
 
 function Chart() {
     const linedata = useGraphContext();//fuel data
-    var allData = []    
-    const chartConfigs =  {
-        type: "msline", // The chart type
-        width: "700", // Width of the chart
-        height: "400", // Height of the chart
-        dataFormat: "json", // Data type
-        dataSource: {
-        // Chart Configuration
-        chart: {
-            caption: "Fuel Price Time Series",    //Set the chart caption
-            subCaption: "Historical fuel prices for given dates",             //Set the chart subcaption
-            xAxisName: "Date",           //Set the x-axis name
-            yAxisName: "Price",  //Set the y-axis name
-            theme: "fusion"                 //Set the theme for your chart
-        },
-        // Chart Data - from step 2
-        data: linedata
-        }
+    const schema = [{
+        name: "Time",
+        type: "date",
+        format: "%Y-%m-%d"
+      }, {
+        name: "Fuel Station",
+        type: "string"
+      }, {
+        name: "Price",
+        type: "number"
+      }]
+    console.log(linedata) 
+    const fusionTable = new FusionCharts.DataStore().createDataTable(
+        linedata,
+        schema
+      );
+    const dataSource =  {
+        chart: {},
+        caption: {text: "Fuel Prices for each day"},
+        subCaption: {text: "See how much the fuel prices change day to day"},
+        series: "Type",
+        yaxis: [
+            {
+              plot: "Cents per Litre",
+              title: "c/L",
+              format: {
+                suffix: "c/L"
+              }
+            }
+          ],
+        data: fusionTable
     };
-
-
+    
+    const timeseries = {
+        type: "timeseries",
+        renderAt: "container",
+        width: "600",
+        height: "400",
+        dataSource
+    };
+    console.log(timeseries)
     return (
-        <div>
-            <ReactFC {...chartConfigs} />
-        </div>
+        <ReactFC {...timeseries} />
+
     )
 }
 
