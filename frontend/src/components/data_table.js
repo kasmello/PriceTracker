@@ -107,7 +107,8 @@ function DataTable(props) {
   useEffect(() => {
     console.log('Table reloaded')
     changePlaceSelect([])
-    setSelectedRows([])}, fuelprices)
+    setSelectedRows([])
+  }, [fuelprices])
 
 
   return(
