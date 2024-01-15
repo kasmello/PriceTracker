@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/PriceTracker/precache-manifest.2364d88d458adaed19a9afac4ad75cc3.js"
+  "/PriceTracker/precache-manifest.e4ae55358fb2c2fb48a3e0b6d7519e76.js"
 );
 
 workbox.clientsClaim();

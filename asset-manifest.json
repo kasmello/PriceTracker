@@ -1,7 +1,7 @@
 {
   "main.css": "/PriceTracker/static/css/main.cdf2aa8e.chunk.css",
-  "main.js": "/PriceTracker/static/js/main.b5809377.chunk.js",
-  "main.js.map": "/PriceTracker/static/js/main.b5809377.chunk.js.map",
+  "main.js": "/PriceTracker/static/js/main.672fda07.chunk.js",
+  "main.js.map": "/PriceTracker/static/js/main.672fda07.chunk.js.map",
   "runtime~main.js": "/PriceTracker/static/js/runtime~main.629b4b6e.js",
   "runtime~main.js.map": "/PriceTracker/static/js/runtime~main.629b4b6e.js.map",
   "static/js/2.dfc6966d.chunk.js": "/PriceTracker/static/js/2.dfc6966d.chunk.js",
@@ -9,7 +9,7 @@
   "static/js/3.019e24d2.chunk.js": "/PriceTracker/static/js/3.019e24d2.chunk.js",
   "static/js/3.019e24d2.chunk.js.map": "/PriceTracker/static/js/3.019e24d2.chunk.js.map",
   "index.html": "/PriceTracker/index.html",
-  "precache-manifest.2364d88d458adaed19a9afac4ad75cc3.js": "/PriceTracker/precache-manifest.2364d88d458adaed19a9afac4ad75cc3.js",
+  "precache-manifest.e4ae55358fb2c2fb48a3e0b6d7519e76.js": "/PriceTracker/precache-manifest.e4ae55358fb2c2fb48a3e0b6d7519e76.js",
   "service-worker.js": "/PriceTracker/service-worker.js",
   "static/css/main.cdf2aa8e.chunk.css.map": "/PriceTracker/static/css/main.cdf2aa8e.chunk.css.map"
 }
