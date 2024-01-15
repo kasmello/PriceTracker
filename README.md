@@ -1,5 +1,5 @@
 # PriceTracker
-*Authors: Joannes Karmel Gandhausada, Han Jien Yeoh*\
+*Author: Joannes Karmel Gandhausada*\
 Tracks the Price of things
 
 ## Done: 
@@ -18,7 +18,7 @@ django\
 django-cors-headers\
 djangorestframework\
 requests\
-fuelwatch api tracker (thanks to the guy I stole from)
+fuelwatch api tracker
 ### JS:
 
 ## How to resume development:

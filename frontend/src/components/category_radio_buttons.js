@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEditCat, useCatView } from './filter';
+import { changeProduct } from './api_fetcher';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,23 +7,23 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 function ChooseMultiCategory() {
-    const updateCat = useEditCat();
-    const curCat = useCatView()
-    const changeFilter = () => {
-        updateCat();
+    const updateCat = changeProduct();
+    const changeFilter = (product) => {
+        updateCat(product);
     }
     return (
         <FormControl className='catRadio'>
-            <FormLabel id="demo-row-radio-buttons-group-label">Category to filter by</FormLabel>
+            <FormLabel id="demo-row-radio-buttons-group-label">Petrol type to filter by</FormLabel>
             <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                defaultValue={curCat}
-                onChange={(e,value) => changeFilter()}
+                defaultValue='UnleadedPetrol'
+                onChange={(e,value) => changeFilter(value)}
             >
-                <FormControlLabel value="brand" control={<Radio />} label="Brand" />
-                <FormControlLabel value="address" control={<Radio />} label="Address" />
+                <FormControlLabel value="UnleadedPetrol" control={<Radio />} label="Unleaded Petrol" />
+                <FormControlLabel value="E85" control={<Radio />} label="E85" />
+                <FormControlLabel value="98RON" control={<Radio />} label="98 RON" />
             </RadioGroup>
         </FormControl>
     )

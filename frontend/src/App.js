@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { ApiProvider } from './components/api_fetcher';
-import { FilterProvider } from './components/filter';
 import ToggleView from './components/fuelview';
 import WelcomePage from './components/welcome_page';
 import { PageNotFound, About } from './components/misc_pages';
@@ -9,10 +8,9 @@ import {
   BrowserRouter as Router,
   Routes,
   Route
-} from 'react-router-dom';
+} from 'react-router-dom'; //for the links
 import './App.css';
 
-// using a class instead of function/const allows for states
 
 function App() {
   const [dataview, setDataView] = useState('table')
@@ -20,12 +18,12 @@ function App() {
   const headerRef = useRef(null)
 
   const changeOrGetSelected = (change=false) => {
-    if (change) {selectedEnable(selected == 'none' ? 'multiple' : 'none')}
+    if (change) {selectedEnable(selected === 'none' ? 'multiple' : 'none')}
     return selected
   }
 
   const changeOrGetDataView = (change=false) => {
-    if (change) {setDataView(dataview=='table' ? 'graph' : 'table')}
+    if (change) {setDataView(dataview==='table' ? 'graph' : 'table')}
     return dataview
   }
 
@@ -33,8 +31,7 @@ function App() {
     <Router>
       <h1 className='Title'>PriceTracker</h1>
       <div className="App">
-      <ApiProvider> 
-      <FilterProvider>
+      <ApiProvider dataMode={selected}> 
       <Navbar headerRef={headerRef}/>
         <div className="Content">
           <Routes>
@@ -50,7 +47,6 @@ function App() {
             <Route element={<PageNotFound />} />
           </Routes>
         </div>
-      </FilterProvider>
       </ApiProvider> 
     </div>
   </Router>

@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from "react"
 import MUIDataTable from "mui-datatables";
-import { getFilteredData } from "./filter";
-import { editPlaceSelect } from "./api_fetcher";
+import { editPlaceSelect, useApiContext } from "./api_fetcher";
+import { styled, createTheme, ThemeProvider } from "@mui/material";
+
+const customTheme = createTheme({
+  overrides: {
+    MUIDataTableFilter: {
+      root: {
+        minWidth: '20vw',  // Adjust the width as needed
+      },
+    },
+    MUIDataTableFilterList: {
+      chip: {
+        marginRight: '8px',  // Adjust the margin as needed
+      },
+    },
+  },
+});
 
 const columns = (selected) => {
   return ([
@@ -9,7 +24,7 @@ const columns = (selected) => {
       name: "brand",
       label: "Brand",
       options: {
-      filter: false,
+      filter: true,
       sort: true,
       }
     },
@@ -17,8 +32,24 @@ const columns = (selected) => {
       name: "date",
       label: "Date",
       options: {
-      display: (selected == 'none' ? true : false),
+      display: false,
       filter: false,
+      sort: true,
+      }
+    },
+    {
+      name: "address",
+      label: "Address",
+      options: {
+      filter: false,
+      sort: true,
+      }
+    },
+    {
+      name: "location",
+      label: "Location",
+      options: {
+      filter: true,
       sort: true,
       }
     },
@@ -26,30 +57,31 @@ const columns = (selected) => {
       name: "price",
       label: "Price",
       options: {
-      display: (selected == 'none' ? true : false),
+      display: (selected === 'none' ? true : false),
       filter: false,
       sort: true,
       customBodyRender: value => <span>{value}c/L</span>
       }
     },
     {
-      name: "address",
-      label: "ADDRESS",
+      name: "description",
+      label: "Description",
       options: {
+      display: (selected === 'none' ? true : false),
       filter: false,
       sort: false,
       }
     },
   ])};
 
-const options = (selected,selectedRows,fuelprices,changePlaceSelect, setSelectedRows) => {
+const options = (selected, selectedRows,fuelprices,changePlaceSelect, setSelectedRows) => {
   return ({
   selectableRows: selected, 
   download: false,
-  search: selected=='none' ? false : true,
+  search: true,
   print: false, 
   viewColumns: false,
-  filter: false,
+  filter: true,
   rowsSelected: selectedRows,
   selectToolbarPlacement: 'above',
   customToolbarSelect: () => {},
@@ -68,20 +100,25 @@ const options = (selected,selectedRows,fuelprices,changePlaceSelect, setSelected
   })}
 
 function DataTable(props) {
-  const getdatafunc = getFilteredData();//fuel array
-  const fuelprices = getdatafunc()
+  const fuelprices = useApiContext()
   const [selectedRows, setSelectedRows] = useState([]);
   const changePlaceSelect = editPlaceSelect();
 
   useEffect(() => {
-    console.log('Selected rows reset')
+    console.log('Table reloaded')
     changePlaceSelect([])
-    setSelectedRows([])},fuelprices)
-  return(<MUIDataTable
-    data={fuelprices}
-    columns={columns(props.selected)}
-    options = {options(props.selected,selectedRows,fuelprices,changePlaceSelect, setSelectedRows)} />)
-}
+    setSelectedRows([])}, fuelprices)
+
+
+  return(
+    <ThemeProvider theme={customTheme}>
+    <MUIDataTable
+      data={fuelprices}
+      columns={columns(props.selected)}
+      options = {options(props.selected,selectedRows,fuelprices,changePlaceSelect, setSelectedRows)} 
+    />
+    </ThemeProvider>
+  )}
 
 export default DataTable
 
