@@ -41,9 +41,10 @@ function editPlaceSelect() {
 }
 
 const neo4j = require("neo4j-driver");
-const uri = process.env.URI
-const usr = process.env.USR
-const password = process.env.PASSWORD
+const uri = process.env.REACT_APP_URI
+const usr = process.env.REACT_APP_USR
+const password = process.env.REACT_APP_PASSWORD
+console.log(process.env.NODE_ENV)
 const driver = neo4j.driver(uri, neo4j.auth.basic(usr, password));
 
 
