@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import MUIDataTable from "mui-datatables";
 import { editPlaceSelect, useApiContext } from "./api_fetcher";
 import { styled, createTheme, ThemeProvider } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 const customTheme = createTheme({
   overrides: {
@@ -72,6 +73,31 @@ const columns = (selected) => {
       sort: false,
       }
     },
+    {
+      name: "product",
+      label: "Fuel Type",
+      options: {
+      display: (selected === 'none' ? false : true),
+      filter: false,
+      sort: false,
+      customBodyRender: (value, tableMeta) => {
+        return(
+        <div>
+          <FormControlLabel control={
+          <Checkbox />
+          } label="Unleaded Petrol" />
+          <FormControlLabel control={
+          <Checkbox />
+          } label="E85" />
+          <FormControlLabel control={
+          <Checkbox />
+          } label="98 RON" />
+        </div>
+        )
+      }
+      
+      }
+    },
   ])};
 
 const options = (selected, selectedRows,fuelprices,changePlaceSelect, setSelectedRows) => {
@@ -88,10 +114,9 @@ const options = (selected, selectedRows,fuelprices,changePlaceSelect, setSelecte
   onRowSelectionChange: (currSelectedRow,allSelectedRows,allRowIndexes) => {
     var placeIndex = []
     setSelectedRows(allSelectedRows.map(row => {
-      placeIndex.push(fuelprices[row.dataIndex].place_id)
+      placeIndex.push(fuelprices[row.dataIndex].address)
       return row.dataIndex
     }));
-    console.log(placeIndex)
     changePlaceSelect(placeIndex)
   },
   draggableColumns: {
@@ -104,11 +129,11 @@ function DataTable(props) {
   const [selectedRows, setSelectedRows] = useState([]);
   const changePlaceSelect = editPlaceSelect();
 
-  useEffect(() => {
-    console.log('Table reloaded')
-    changePlaceSelect([])
-    setSelectedRows([])
-  }, [fuelprices])
+  // useEffect(() => {
+  //   console.log('Table reloaded')
+    // changePlaceSelect([])
+    // setSelectedRows([])
+  // }, [fuelprices])
 
 
   return(

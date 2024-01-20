@@ -6,8 +6,6 @@ const ApiContext = createContext();
 const ChangeDateMode = createContext();
 const ChangeProduct = createContext()
 const GraphContext = createContext()
-const ChangeGraph = createContext()
-const PlaceSelect = createContext();
 const EditPlaceSelect = createContext();
 
 
@@ -28,13 +26,7 @@ function useGraphContext() {
     return useContext(GraphContext)
 }
 
-function useEditGraph() {
-    return useContext(ChangeGraph)
-}
 
-function usePlaceSelect() {
-    return useContext(PlaceSelect)
-}
 
 function editPlaceSelect() {
     return useContext(EditPlaceSelect)
@@ -48,7 +40,7 @@ const driver = neo4j.driver(uri, neo4j.auth.basic(usr, password));
 
 
 
-function ApiProvider({ children, dataMode }) {
+function ApiProvider({ children, dataMode, dataView }) {
     const [dateMode, setDateMode] = useState('tdy');
     const [product, setProduct] = useState('UnleadedPetrol')
     const [fuelprices, setPrices] = useState([]);
@@ -70,6 +62,18 @@ function ApiProvider({ children, dataMode }) {
         RETURN b.brand AS brand,p.address AS address,l.location AS location`
 
     }
+
+    const linkGeneratorGraph = (addressList, product) => {
+        addressList.forEach((address) => {
+            return `MATCH (b:Brand)-->(p:Place)<--(l:Location)
+            WHERE p.address = '${address}'
+            MATCH (d:DATE_${product})-[pr:PRICED_AT]->(p:Place)
+            RETURN b.brand AS brand,l.location AS location
+            ,pr.price AS price,d.date AS date`
+        })
+        
+    }
+
 
     const linkGenerator = (dateStr,product) => {
         // date can be tdy, tmr, or all
@@ -96,19 +100,11 @@ function ApiProvider({ children, dataMode }) {
 
     }
 
-    // const changeDateForFusion = (date) => {
-    //     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    //         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    //         ];
-    //     var d = new Date(date)
-    //     const day = d.getDate();
-    //     const month = monthNames[d.getMonth()];
-    //     const year = d.getFullYear();
-    //     return `${day}-${month}-${year}`
-    // }
-
-    const changePlaceSelect = (num_list) => {
-        setPlaceSelect(num_list)
+    const changePlaceSelect = (item=null) => {
+        if (item !== null) {
+            setPlaceSelect(item)
+        }
+        return placeSelect
     }
 
 
@@ -148,14 +144,16 @@ function ApiProvider({ children, dataMode }) {
     // fetchFuels(1);
     useEffect(() => {
         console.log('Data Reloaded')
-        if (dataMode==='multiple') {
+        if (dataView==='graph') {
+            fetchFuels(linkGeneratorGraph(placeSelect,))
+        } else if (dataMode==='multiple') {
             fetchFuels(linkGeneratorPlace())
-        } else {
+        } else{
             fetchFuels(linkGenerator(dateMode,product))
         }
         // then(link => fetchFuels(link))
        
-    },[dataMode,product,dateMode]); //acts as component did mount, only executes once on launch
+    },[dataMode,product,dateMode, dataView]); //acts as component did mount, only executes once on launch
 
     
     return (
@@ -163,13 +161,9 @@ function ApiProvider({ children, dataMode }) {
         <ChangeDateMode.Provider value = { setDateMode }>
         <ChangeProduct.Provider value = { setProduct }>
         <GraphContext.Provider value = {graphData}>
-        <ChangeGraph.Provider value = {fetchPlacePrices}>
-        <PlaceSelect.Provider value={placeSelect}>
         <EditPlaceSelect.Provider value={changePlaceSelect}>
             { children }
         </EditPlaceSelect.Provider>
-        </PlaceSelect.Provider>
-        </ChangeGraph.Provider>
         </GraphContext.Provider>
         </ChangeProduct.Provider>
         </ChangeDateMode.Provider>
@@ -179,4 +173,4 @@ function ApiProvider({ children, dataMode }) {
 }
 
 
-  export { ApiProvider, useApiContext, changeDateMode, changeProduct, useGraphContext, useEditGraph, usePlaceSelect, editPlaceSelect }
+  export { ApiProvider, useApiContext, changeDateMode, changeProduct, useGraphContext, editPlaceSelect }

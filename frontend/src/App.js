@@ -32,7 +32,7 @@ function App() {
     <Router>
       <h1 className='Title'>PriceTracker</h1>
       <div className="App">
-      <ApiProvider dataMode={selected}> 
+      <ApiProvider dataMode={selected} dataView={dataview}> 
       <Navbar headerRef={headerRef}/>
         <div className="Content">
           <Routes>

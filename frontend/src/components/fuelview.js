@@ -4,21 +4,19 @@ import ChooseMultiTime from './time_radio_buttons.js';
 import Chart from './timeseries';
 import Col from 'react-bootstrap/Col';
 import DataTable from './data_table.js';
-import { usePlaceSelect, useEditGraph } from './api_fetcher.js';
+import { editPlaceSelect } from './api_fetcher.js';
 
 function ToggleView(props) {
-  const placeSelect = usePlaceSelect();
-  const loadGraphData = useEditGraph();
+  const placeSelect = editPlaceSelect();
   const changeTable = () => {
     props.changeOrGetSelected(true)
     if (props.changeOrGetDataView()==='graph') {props.changeOrGetDataView(true)}
   }
 
   const changeData = () => {
-    if (placeSelect.length === 0) {
+    if (placeSelect().length === 0) {
       alert('You have not selected anything!')
     } else {
-      loadGraphData()
       props.changeOrGetDataView(true)}
   }
   
