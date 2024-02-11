@@ -10,9 +10,9 @@ function PageNotFound() {
 
 function About() {
     return (
-        <div>
+        <div style={{ marginRight: '2em', marginLeft: '2em', marginTop: '3em'}}>
             <p>
-                We constructed this website not only to learn more about front and backend development, but specifically how to 
+                This website was constructed not only to learn more about front and backend development, but specifically how to 
                 implement such skills in a realistic environment, such as a Website.
             </p>
         </div>

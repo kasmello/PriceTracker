@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import MUIDataTable from "mui-datatables";
 import { editPlaceSelect, useApiContext } from "./api_fetcher";
 import { styled, createTheme, ThemeProvider } from "@mui/material";
@@ -66,11 +66,12 @@ const columns = (selected) => {
     },
     {
       name: "description",
-      label: "Description",
+      label: "DESCRIPTION",
       options: {
       display: (selected === 'none' ? true : false),
       filter: false,
       sort: false,
+      customBodyRender: (value) => <span><i>{value}</i></span>
       }
     },
     {
@@ -85,13 +86,13 @@ const columns = (selected) => {
         <div>
           <FormControlLabel control={
           <Checkbox />
-          } label="Unleaded Petrol" />
+          } label="UP" />
           <FormControlLabel control={
           <Checkbox />
           } label="E85" />
           <FormControlLabel control={
           <Checkbox />
-          } label="98 RON" />
+          } label="98" />
         </div>
         )
       }

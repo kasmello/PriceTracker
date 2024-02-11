@@ -39,7 +39,7 @@ function App() {
             <Route exact path="/" element={<WelcomePage />} />
             <Route path="/fuelview" element={
               <>
-                <h1>Table of all prices recorded this month</h1>          
+                <h1 style={{marginTop: '1em', marginBottom: '1em'}}>Table of all prices recorded this month</h1>          
                 <ToggleView changeOrGetDataView={changeOrGetDataView} 
                 changeOrGetSelected={changeOrGetSelected} headerRef={headerRef}/> 
               </>
