@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "6cc632cf9e196cb1ce72",
-    "url": "/PriceTracker/static/css/main.cdf2aa8e.chunk.css"
+    "revision": "4fa0bac9b57082b39141",
+    "url": "/PriceTracker/static/css/main.effe381e.chunk.css"
   },
   {
-    "revision": "6cc632cf9e196cb1ce72",
-    "url": "/PriceTracker/static/js/main.2c92a6da.chunk.js"
+    "revision": "4fa0bac9b57082b39141",
+    "url": "/PriceTracker/static/js/main.65c3bd7e.chunk.js"
   },
   {
     "revision": "ef339c4a38ee9b1251f1",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/PriceTracker/static/js/3.e88c91de.chunk.js"
   },
   {
-    "revision": "e148743a28a5a61a3baca60810ba1c88",
+    "revision": "fca0cd4562188294f3051488b75e6e2a",
     "url": "/PriceTracker/index.html"
   }
 ];
