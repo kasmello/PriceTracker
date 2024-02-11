@@ -109,9 +109,13 @@ function ApiProvider({ children, dataMode, dataView }) {
 
 
     const fetchFuels = async (link) => {
-        const session = driver.session();
+        const session = await driver.session();
         const result = await session.run(link)
-        await setPrices(result.records.map(record => record.toObject()))
+        await setPrices(result.records.map(record => {
+            var newRecord = record.toObject()
+            newRecord['price'] = parseFloat(newRecord['price'])
+            return newRecord
+        }))
         await session.close()
     };
 
